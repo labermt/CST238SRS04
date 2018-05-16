@@ -15,4 +15,9 @@ public class Square {
     public void set(SquareType newType){
         type = newType;
     }
+
+    public SquareType getType()
+    {
+        return type;
+    }
 }
