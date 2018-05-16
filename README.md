@@ -1,6 +1,8 @@
 # CST238SRS04
 Connect
 
+Name: Jake Knudsen
+
 Purpose: Practice UX testing. 
 
 Create a game called Connect.

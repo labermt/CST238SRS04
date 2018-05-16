@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <Button
+            android:id="@+id/b0_0"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:minHeight="0"
+            android:minWidth="0"
+            android:text="@"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textColor="@android:color/black"
+            android:textSize="10sp"
+            app:layout_column="0"
+            app:layout_row="0" />
+
+        <Button
+            android:id="@+id/b0_1"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="X"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="10sp"
+            app:layout_column="1"
+            app:layout_row="0" />
+
+        <Button
+            android:id="@+id/b0_2"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="O"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="10sp"
+            app:layout_column="2"
+            app:layout_row="0" />
+
+        <Button
+            android:id="@+id/b0_3"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="X"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="10sp"
+            app:layout_column="3"
+            app:layout_row="0" />
+
+        <Button
+            android:id="@+id/b0_4"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="O"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="10sp"
+            app:layout_column="4"
+            app:layout_row="0" />
+
+        <Button
+            android:id="@+id/b0_5"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="X"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="10sp"
+            app:layout_column="5"
+            app:layout_row="0" />
+
+        <Button
+            android:id="@+id/b0_6"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="O"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="10sp"
+            app:layout_column="6"
+            app:layout_row="0" />
+
+        <Button
+            android:id="@+id/b0_7"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="X"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="10sp"
+            app:layout_column="7"
+            app:layout_row="0" />
+
+        <Button
+            android:id="@+id/b0_8"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="O"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="10sp"
+            app:layout_column="8"
+            app:layout_row="0" />
+
+        <Button
+            android:id="@+id/b0_9"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="X"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="10sp"
+            app:layout_column="9"
+            app:layout_row="0" />
+
+        <Button
+            android:id="@+id/b0_10"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="@"
+            android:textSize="10sp"
+            app:layout_column="10"
+            app:layout_row="0" />
+
+    </android.support.v7.widget.GridLayout>
+</android.support.constraint.ConstraintLayout>
