@@ -23,6 +23,8 @@ Subsequent revisions must address your UX testing results against the notes take
 
 Each UX test has 2 phases. The first is silent testing. Your tester must not have seen your app before the test and must use your app without input from you. You need to carefully observe and take notes on what you witness. The tester is encouraged to talk. 
 
+You will need a written set of instructions for your tester to perform. This may be as simple as a directive to play the game. 
+
 After the silent testing, you may interview your tester for your second phase. Use the interview process to complete your understanding of your testers problems during the first phase. 
 
 Your grade will be mostly judged on your gathering feedback and incorporating it into your app.
