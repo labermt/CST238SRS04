@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textViewPlayer2;
     public int originx =0, originy=0, ssx=0,ssy=0;
     public boolean Checkstart= false;
-    public int traverse = 0;
+    //public int traverse = 0;
 
 
 
@@ -276,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if(findViewById(v.getId()) == buttons[i][j])
                             {
                                 checkForStart("X",i,j);
+                                
                             }
                         }
                     }
@@ -309,7 +310,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ifTouch[i][j]=false;
             }
         }
-        traverse =0;
     }
 
 
@@ -322,74 +322,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         RefillCont();
 
-        return checkForWin(tc,tx,ty);
+        return checkForWinCircle(tc,tx,ty, 0);
 
     }
 
-    private boolean checkForWin(String tc, int tx, int ty) {
+    private boolean checkForWinCircle(String tc, int tx, int ty, int trav) {
 
-
-
-        if(ty < 10)
-        {
-            if (Cont[tx][ty].equals(tc) && Cont[tx][ty+1].equals(tc) && !ifTouch[tx][ty + 1]) {
-                ifTouch[tx][ty] = true;
-                traverse++;
-                ty++;
-                return checkForWin(tc,tx, ty);
-
-            }
-        }
-
-        if(tx < 10)
-        {
-            if(Cont[tx][ty].equals(tc) && Cont[tx+1][ty].equals(tc) && !ifTouch[tx + 1][ty])
-            {
-                ifTouch[tx][ty] = true;
-                traverse++;
-                tx++;
-                return checkForWin(tc,tx, ty);
-
-
-            }
-
-        }
-        if(ty > 0)
-        {
-            if (Cont[tx][ty].equals(tc) && Cont[tx][ty-1].equals(tc) && !ifTouch[tx][ty - 1]) {
-                ifTouch[tx][ty] = true;
-                traverse++;
-                ty--;
-                return checkForWin(tc,tx, ty);
-            }
-        }
-        if(tx > 0)
-        {
-            if (Cont[tx][ty].equals(tc) && Cont[tx-1][ty].equals(tc) && !ifTouch[tx - 1][ty]) {
-                ifTouch[tx][ty] = true;
-                traverse++;
-                tx--;
-                return checkForWin(tc,tx, ty);
-            }
-        }
-
-
-
-
-
-
-        if(originx == tx && originy == ty+1 && traverse >= 7)
+        trav++;
+        if(originx == tx && originy == ty && trav >= 7)
         {
             PlayerWon(tc);
             return true;
         }
-        else if((((originx == 0 && tx == 10) || (originy == 0 && ty == 10)) && traverse >= 9))
+   /*     else if((((originx == 0 && tx == 10) || (originy == 0 && ty == 10)) && trav >= 9))
         {
             PlayerWon(tc);
             return true;
+        }*/
+
+        boolean didIwin = false;
+        if(!ifTouch[tx][ty]) {
+            ifTouch[tx][ty] = true;
+
+            if (ty < 10) {
+                if (Cont[tx][ty + 1].equals(tc)) {
+                    didIwin = checkForWin(tc, tx, (ty + 1), trav);
+                }
+            }
+            if (!didIwin && ty > 0) {
+                if (Cont[tx][ty - 1].equals(tc)) {
+                    didIwin = checkForWin(tc, tx, (ty - 1), trav);
+                }
+            }
+
+            if (!didIwin && tx < 10) {
+                if (Cont[tx + 1][ty].equals(tc)) {
+                    didIwin = checkForWin(tc, (tx + 1), ty, trav);
+                }
+            }
+            if (!didIwin && tx > 0) {
+                if (Cont[tx - 1][ty].equals(tc)) {
+                    didIwin = checkForWin(tc, (tx - 1), ty, trav);
+                }
+            }
         }
 
-        return false;
+
+        return didIwin;
 
     }
 
