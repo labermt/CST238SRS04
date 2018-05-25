@@ -1,33 +1,23 @@
 Connect Game:
 
-Student Name:
+Student Name: Shant Ahuja
 
-Issues:
+Issues: None
 
-Notes:
+Notes: N/A
 
 ----
 
 Tester Name:
 
-Tester Played Game Before (Yes/No): 
+Silent Test Notes:
 
-Test #1 Instructions:  
-Test #2 Instructions:  
-...  
-Test #N Instructions:  
+Interview Notes:
 
-Silent Test Notes:  
+Issues:
 
-  Test #1 Time:  
-  Test #2 Time:  
-  ...  
-  Test #N Time:  
-  
-Interview Notes:  
-
-Issues Discovered:  
+Fix:
 
 ---
 
-Repeat for each Tester...
+... Repeat for each Tester. 
