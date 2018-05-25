@@ -1,6 +1,6 @@
-Connect Game:
+Connect Game:Connect
 
-Student Name:
+Student Name:Nicholas Slaughter
 
 Issues:
 
