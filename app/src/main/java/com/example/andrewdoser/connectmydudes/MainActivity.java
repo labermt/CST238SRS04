@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textViewPlayer2;
     public int originx =0, originy=0, ssx=0,ssy=0;
     public boolean Checkstart= false;
-    //public int traverse = 0;
+    public boolean didIStart, didIEnd;
 
 
 
@@ -316,8 +316,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         originx = tx;
         originy = ty;
-        ssx=tx;
-        ssy=ty;
+        ssx=0;
+        ssy=0;
+        didIEnd = false;
+        didIStart = false;
 
         RefillCont();
 
@@ -333,11 +335,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             PlayerWon(tc);
             return true;
         }
-   /*     else if((((originx == 0 && tx == 10) || (originy == 0 && ty == 10)) && trav >= 9))
+        else if((didIEnd && didIStart) && trav >= 7)
         {
             PlayerWon(tc);
             return true;
-        }*/
+        }
+        if (ty == 0) didIStart = true;
+        if (ty == 10) didIEnd = true;
+        if (tx == 0) didIStart = true;
+        if (tx == 10) didIEnd = true;
+
 
         boolean didIwin = false;
         if(!ifTouch[tx][ty]) {
