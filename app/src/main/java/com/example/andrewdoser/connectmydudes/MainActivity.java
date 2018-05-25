@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -103,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             {
                 buttons[j][i].setText("");
                 buttons[j][i].setBackgroundResource(android.R.drawable.btn_default);
+                buttons[i][j].setError(null);
             }
         }
         for (int i = 0; i < 11; i+=2)
@@ -131,14 +135,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             LetsToast("Player 1 has won!", getResources().getColor(R.color.dgreen));
             player1points++;
             textViewPlayer1.setText("Player 1: " +player1points);
-            buttReset();
         }
         else if (player.equals("O"))
         {
             LetsToast("Player 2 has won!", getResources().getColor(R.color.dblue));
             player2points++;
             textViewPlayer2.setText("Player 2: " +player2points);
-            buttReset();
+
 
         }
     }
@@ -186,7 +189,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttons[x][y].setText("O");
             buttons[x][y].setBackgroundColor(getResources().getColor(R.color.lblue));
             player1turn = true;
-            checkForStart("O",x,y);
+            if(checkForStart("O",x,y))
+            {
+                buttReset();
+            }
             return true;
         }
         else
@@ -275,7 +281,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         {
                             if(findViewById(v.getId()) == buttons[i][j])
                             {
-                                checkForStart("X",i,j);
+                                if(checkForStart("X",i,j))
+                                {
+                                    buttReset();
+                                }
                             }
                         }
                     }
@@ -340,6 +349,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             PlayerWon(tc);
             return true;
         }
+
         if (ty == 0) didIStart = true;
         if (ty == 10) didIEnd = true;
         if (tx == 0) didIStart = true;
