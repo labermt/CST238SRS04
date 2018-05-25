@@ -276,7 +276,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if(findViewById(v.getId()) == buttons[i][j])
                             {
                                 checkForStart("X",i,j);
-                                
                             }
                         }
                     }
@@ -322,11 +321,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         RefillCont();
 
-        return checkForWinCircle(tc,tx,ty, 0);
+        return checkForWin(tc,tx,ty, 0);
 
     }
 
-    private boolean checkForWinCircle(String tc, int tx, int ty, int trav) {
+    private boolean checkForWin(String tc, int tx, int ty, int trav) {
 
         trav++;
         if(originx == tx && originy == ty && trav >= 7)
