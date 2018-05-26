@@ -1,12 +1,16 @@
 package com.example.david.connectgame;
 
+import java.util.Random;
+
 public class BoardGame {
     private Board board;
+    private Random rand;
     public boolean isFirstPlayerTurn;
 
     public BoardGame(Board board){
         this.board = board;
         isFirstPlayerTurn = true;
+        rand = new Random();
     }
 
     public void Reset() {
@@ -61,6 +65,10 @@ public class BoardGame {
         floodFill(grid,1,1);
 
         return !isItFull(grid);
+    }
+    public void autoTurn()
+    {
+
     }
 
     private void floodFill(Boolean[][] grid,int x, int y) {
