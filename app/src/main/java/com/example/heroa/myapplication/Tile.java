@@ -2,27 +2,32 @@ package com.example.heroa.myapplication;
 enum State {PLAYERONE, PLAYERTWO, EMPTY};
 public class Tile
 {
-    State state;
-    boolean checked;
+    State state = State.EMPTY;
+    boolean checked = false;
 
-    void SetState(State newState)
+    Tile()
+    {
+
+    }
+
+
+    public void SetState(State newState)
     {
         state = newState;
     }
 
-    State GetState()
+    public State GetState()
     {
         return state;
     }
 
-    void SetChecked(boolean newChecked)
+    public void SetChecked(boolean newChecked)
     {
         checked = newChecked;
     }
 
-    boolean GetChecked()
+    public boolean GetChecked()
     {
         return checked;
     }
 }
-

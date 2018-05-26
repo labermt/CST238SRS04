@@ -2,20 +2,20 @@ package com.example.heroa.myapplication;
 
 public class GameController
 {
-    Field field;
-    State turn;
+    public Field field = new Field();
+    public boolean turn = true;
 
-    void ToggleTurn() {
-        if (turn == State.PLAYERONE) {
-            turn = State.PLAYERTWO;
+    public void ToggleTurn() {
+        if (turn) {
+            turn = false;
         }
         else
         {
-            turn = State.PLAYERONE;
+            turn = true;
         }
     }
 
-    boolean isValidMove(int xTile, int yTile)
+    public boolean isValidMove(int xTile, int yTile)
     {
         boolean valid = false;
 
@@ -25,7 +25,7 @@ public class GameController
         return valid;
     }
 
-    void PickTile(int xTile, int yTile)
+    public void PickTile(int xTile, int yTile)
     {
 
     }
