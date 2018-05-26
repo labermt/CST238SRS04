@@ -6,6 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/player2Color"
+        android:layout_width="170dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="Player 2 Color"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/p1SeekBar" />
+
+    <ImageView
+        android:id="@+id/p2ImageView"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toEndOf="@+id/p2SeekBar"
+        app:layout_constraintTop_toBottomOf="@+id/player2Color"
+        app:srcCompat="@drawable/blank" />
+
     <Button
         android:id="@+id/playGame"
         android:layout_width="175dp"
@@ -19,4 +43,52 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/player1Color"
+        android:layout_width="170dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Player 1 Color"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/p1ImageView"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toEndOf="@+id/p1SeekBar"
+        app:layout_constraintTop_toBottomOf="@+id/player1Color"
+        app:srcCompat="@drawable/blank" />
+
+    <SeekBar
+        android:id="@+id/p1SeekBar"
+        android:layout_width="245dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:max="4"
+        android:min="0"
+        android:progress="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player1Color" />
+
+    <SeekBar
+        android:id="@+id/p2SeekBar"
+        android:layout_width="245dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:max="4"
+        android:min="0"
+        android:progress="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player2Color" />
 </android.support.constraint.ConstraintLayout>

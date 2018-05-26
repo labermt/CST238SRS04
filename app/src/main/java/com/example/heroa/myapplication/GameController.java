@@ -134,6 +134,5 @@ public class GameController
         rightFound = false;
         field.ResetCheckedOnField();
     }
-
 }
 

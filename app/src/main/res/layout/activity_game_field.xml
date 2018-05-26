@@ -1186,7 +1186,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="36sp" />
+            android:textSize="110sp" />
 
     </RelativeLayout>
 </LinearLayout>

@@ -11,6 +11,8 @@ public class GameField extends AppCompatActivity {
 
     private ImageView buttons[][] = new ImageView[11][11];
     public GameController overlord = new GameController();
+    int playerOneImage = 0;
+    int playerTwoImage = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +64,37 @@ public class GameField extends AppCompatActivity {
             for (int j = 0; j < 11; j++)
             {
                 if(overlord.GetTile(i, j).state == State.PLAYERONE)
-                    buttons[i][j].setImageResource(R.drawable.red);
+                    UpdateImage(i, j, playerOneImage);
                 else if(overlord.GetTile(i, j).state == State.PLAYERTWO)
-                    buttons[i][j].setImageResource(R.drawable.blue);
+                    UpdateImage(i, j, playerTwoImage);
             }
         }
     }
+
+    private void UpdateImage(int x, int y, int image)
+    {
+        switch(image)
+        {
+            case 0:
+                buttons[x][y].setImageResource(R.drawable.red);
+                break;
+            case 1:
+                buttons[x][y].setImageResource(R.drawable.blue);
+                break;
+            case 2:
+                buttons[x][y].setImageResource(R.drawable.green);
+                break;
+            case 3:
+                buttons[x][y].setImageResource(R.drawable.white);
+                break;
+            case 4:
+                buttons[x][y].setImageResource(R.drawable.black);
+                break;
+            default:
+                break;
+        }
+    }
+
 
     public void PrepField()
     {
