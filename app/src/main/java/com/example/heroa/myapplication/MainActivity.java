@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                player1Color = progress;
+                player2Color = progress;
                 player2OnChange(progress);
             }
         });
@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
     public void PlayGame(View view)
     {
         Intent intent = new Intent(this, GameField.class);
+        intent.putExtra("player1Color", player1Color);
+        intent.putExtra("player2Color", player2Color);
         startActivity(intent);
     }
 
