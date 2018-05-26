@@ -2,7 +2,7 @@ Connect Game:
 
 Student Name: Jake Knudsen
 
-Issues: Win Logic not completed.
+Issues: Win Logic not implemented yet.
 
 Notes: None.
 
