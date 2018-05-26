@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GameField extends AppCompatActivity {
 
@@ -21,28 +22,22 @@ public class GameField extends AppCompatActivity {
     }
 
     public void onClick(View v) {
-        TextView playerTurn = findViewById(R.id.activePlayerTextField);
         ImageView image = findViewById(v.getId());
-        State state = State.PLAYERTWO;
         Location location = GetLocation(v.getId());
 
-        //if isValid...
-        if(overlord.turn)
+        if(overlord.isValidMove(location.locX, location.locY))
         {
-            state = State.PLAYERONE;
-            playerTurn.setText("Player Two's Turn");
+            UpdateTurnField();
+            overlord.PickTile(location.locX, location.locY);
+            image.setClickable(false);
+            if(overlord.CheckForWin(location.locX, location.locY))
+            {
+                Toast.makeText(this, "VICTORY!!", Toast.LENGTH_LONG).show();
+            }
         }
         else
-        {
-            playerTurn.setText("Player One's Turn");
-        }
-
-        overlord.field.SetTile(location.locX, location.locY, state);
-
-        image.setClickable(false);
-        overlord.ToggleTurn();
+            Toast.makeText(this, "Can't place there.", Toast.LENGTH_SHORT).show();
         DrawField();
-        return;
     }
 
     public Location GetLocation(int id)
@@ -66,9 +61,9 @@ public class GameField extends AppCompatActivity {
         {
             for (int j = 0; j < 11; j++)
             {
-                if(overlord.field.field[i][j].state == State.PLAYERONE)
+                if(overlord.GetTile(i, j).state == State.PLAYERONE)
                     buttons[i][j].setImageResource(R.drawable.red);
-                else if(overlord.field.field[i][j].state == State.PLAYERTWO)
+                else if(overlord.GetTile(i, j).state == State.PLAYERTWO)
                     buttons[i][j].setImageResource(R.drawable.blue);
             }
         }
@@ -94,14 +89,23 @@ public class GameField extends AppCompatActivity {
                 int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
                 buttons[j][i] = findViewById(resID);
 
-                if(overlord.field.field[i][j].state != State.EMPTY)
+                if(overlord.GetTile(i, j).state != State.EMPTY)
                     buttons[j][i].setClickable(false);
             }
         }
-        buttons[0][0].setClickable(false);
-        buttons[0][10].setClickable(false);
-        buttons[10][0].setClickable(false);
-        buttons[10][10].setClickable(false);
+    }
+
+    public void UpdateTurnField()
+    {
+        TextView playerTurn = findViewById(R.id.activePlayerTextField);
+        if(overlord.turn)
+        {
+            playerTurn.setText("Player Two's Turn");
+        }
+        else
+        {
+            playerTurn.setText("Player One's Turn");
+        }
     }
 }
 
