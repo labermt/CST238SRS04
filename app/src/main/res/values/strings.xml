@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Connect!</string>
+    <string name="RED">RED</string>
+    <string name="BLUE">BLUE</string>
+</resources>
