@@ -1,4 +1,6 @@
 # CST238SRS04
+Bradley Bergstrom
+
 Connect
 
 Purpose: Practice UX testing. 
