@@ -1,17 +1,14 @@
 package com.example.heroa.myapplication;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class GameField extends AppCompatActivity implements View.OnClickListener {
+public class GameField extends AppCompatActivity {
 
-    private ImageButton buttons[][] = new ImageButton[11][11];
+    private ImageView buttons[][] = new ImageView[11][11];
     public GameController overlord = new GameController();
 
     @Override
@@ -19,6 +16,66 @@ public class GameField extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_field);
 
+        PrepField();
+        DrawField();
+    }
+
+    public void onClick(View v) {
+        TextView playerTurn = findViewById(R.id.activePlayerTextField);
+        ImageView image = findViewById(v.getId());
+        State state = State.PLAYERTWO;
+        Location location = GetLocation(v.getId());
+
+        //if isValid...
+        if(overlord.turn)
+        {
+            state = State.PLAYERONE;
+            playerTurn.setText("Player Two's Turn");
+        }
+        else
+        {
+            playerTurn.setText("Player One's Turn");
+        }
+
+        overlord.field.SetTile(location.locX, location.locY, state);
+
+        image.setClickable(false);
+        overlord.ToggleTurn();
+        DrawField();
+        return;
+    }
+
+    public Location GetLocation(int id)
+    {
+        for(int i = 0; i < 11; i++)
+        {
+            for(int j = 0; j < 11; j++)
+            {
+                if(buttons[i][j].getId() == id)
+                {
+                    return new Location(i, j);
+                }
+            }
+        }
+        return null;
+    }
+
+    public void DrawField()
+    {
+        for(int i = 0; i < 11; i++)
+        {
+            for (int j = 0; j < 11; j++)
+            {
+                if(overlord.field.field[i][j].state == State.PLAYERONE)
+                    buttons[i][j].setImageResource(R.drawable.red);
+                else if(overlord.field.field[i][j].state == State.PLAYERTWO)
+                    buttons[i][j].setImageResource(R.drawable.blue);
+            }
+        }
+    }
+
+    public void PrepField()
+    {
         for(int i = 0; i < 11; i++)
         {
             for(int j = 0; j < 11; j++)
@@ -37,39 +94,14 @@ public class GameField extends AppCompatActivity implements View.OnClickListener
                 int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
                 buttons[j][i] = findViewById(resID);
 
-                if(overlord.field.field[j][i].GetState() == State.PLAYERONE)
-                    findViewById(resID).setBackgroundResource(R.drawable.peace);
-                else if(overlord.field.field[j][i].GetState() == State.PLAYERTWO)
-                    findViewById(resID).setBackgroundResource(R.drawable.biohazard);
+                if(overlord.field.field[i][j].state != State.EMPTY)
+                    buttons[j][i].setClickable(false);
             }
         }
-    }
-
-    @Override
-    public void onClick(View v) {
-        //button.setBackgroundResource(R.drawable.peace);
-        //if (!((Button) v).getBackground().equals("@drawable/blank")){
-           // return;
-        //}
-
-        //if(playerTurn){
-        //    ((ImageButton)v).setBackgroundResource(R.drawable.peace);
-        //} else {
-        //    ((ImageButton)v).setBackgroundResource(R.drawable.biohazard);
-        //}
-        setContentView(R.layout.activity_game_field);
-        TextView playerTurn = findViewById(R.id.activePlayerTextField);
-
-        if(overlord.turn)
-        {
-            playerTurn.setText("Player One");
-            ((ImageButton)v).setBackgroundResource(R.drawable.biohazard);
-            overlord.ToggleTurn();
-        } else {
-            playerTurn.setText("Player Two");
-            ((ImageButton)v).setBackgroundResource(R.drawable.peace);
-            overlord.ToggleTurn();
-        }
-
+        buttons[0][0].setClickable(false);
+        buttons[0][10].setClickable(false);
+        buttons[10][0].setClickable(false);
+        buttons[10][10].setClickable(false);
     }
 }
+
