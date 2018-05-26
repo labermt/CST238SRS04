@@ -66,9 +66,13 @@ public class BoardGame {
 
         return !isItFull(grid);
     }
-    public void autoTurn()
-    {
-
+    public void autoTurn() {
+        int x = rand.nextInt(12);
+        int y = rand.nextInt(12);
+        while (!takeTurn(isFirstPlayerTurn, x, y) ){
+            x = (x + 7) % 12;
+            y = (y + 5) % 12;
+        }
     }
 
     private void floodFill(Boolean[][] grid,int x, int y) {

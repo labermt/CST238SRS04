@@ -1,5 +1,6 @@
 package com.example.david.connectgame;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -36,6 +37,7 @@ public class BoardView extends View {
 
         initializeComponents();
         setupBoard();
+        int j;
 
         setOnTouchListener( new View.OnTouchListener(){
                                 @Override
@@ -153,7 +155,8 @@ public class BoardView extends View {
     }
 
     public void toggleTurn() {
-        TextView textView = findViewById(R.id.player);
+        TextView textView = ((Activity)getContext()).findViewById(R.id.player);
+//        TextView textView = findViewById(R.id.player);
         if (focused.p.getColor() == C.FIRST) {
             focused.p.setColor(C.SECOND);
             textView.setBackgroundColor(C.SECOND);
