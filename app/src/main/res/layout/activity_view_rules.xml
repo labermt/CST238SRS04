@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ViewRulesActivity">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="31dp"
+        android:text="Rules"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="296dp"
+        android:layout_height="51dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="19dp"
+        android:text="How to play: Click on a white square that is in between two squares of your color to change it to your color."
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="297dp"
+        android:layout_height="23dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="17dp"
+        android:text="Goal: To win, do one of the following: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="297dp"
+        android:layout_height="27dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:text="1. Form a path that connects a square to itself"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="304dp"
+        android:layout_height="54dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:text="2. Form a path that connects the left side of the board to the right (blue) or the top to the bottom (red)"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+</android.support.constraint.ConstraintLayout>
