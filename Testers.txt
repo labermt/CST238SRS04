@@ -1,0 +1,110 @@
+**************************
+*****  Tester's form *****
+**************************
+Name:John 
+
+Have you tested another students app?(yes or no) yes
+
+The game logic is not working.
+Tap around on the screen and see what you think of the interface
+
+
+
+notes:
+he tapped on the blue player label
+"maybe change to "Blue players turn" instead of just "player"
+
+invalid turn Toast not clear
+"display 'Select open tile between two of your tiles' instead of 'Select and open tile surrounded by your color' "
+
+
+
+
+
+
+
+
+**************************
+*****  Tester's form *****
+**************************
+Name: Amber
+
+Have you tested another students app?(yes or no) 
+
+The game logic is not working.
+Tap around on the screen and see what you think of the interface
+
+select a tile, then move to a different tile
+
+what do you think of the button, label and hints that pop up?
+
+
+
+(Question mark icon) tab for game information
+
+
+
+
+
+
+
+
+
+
+
+
+
+**************************
+*****  Tester's form *****
+**************************
+Name: Beau 
+
+Have you tested another students app?(yes or no)  yes
+
+The game logic is not working.
+Tap around on the screen and see what you think of the interface
+
+select a tile, then move to a different tile
+
+what do you think of the button, label and hints that pop up?
+
+player labal switch to other side
+reset button/option
+black out corners so that they don't look selectable
+complementary colors (contrast)
+select player colors
+help menu with instructions + visual aid
+"select in between" "not surrounded by"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -22,21 +22,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(board.hasFocus){
                     SquareView player;
-                    if(board.game.isFirstPlayerTurn){
+                    boolean firstPlayerTurn = board.game.isFirstPlayerTurn;
+                    if(firstPlayerTurn){
                         player = board.first;
                     }
                     else{
                         player = board.second;
                     }
                     board.game.takeTurn(
-                            board.game.isFirstPlayerTurn,
+                            firstPlayerTurn,
                             board.focusCell.x,
                             board.focusCell.y);
-                    SquareView sView = new SquareView(
-                            player,
-                            board.focusCell.x * board.cellWidth + board.boardPadding,
-                            board.focusCell.y * board.cellWidth + board.boardPadding);
-                    board.squares.add(sView);
 
                     boolean won = board.game.won(board.game.isFirstPlayerTurn);
                     if(won){

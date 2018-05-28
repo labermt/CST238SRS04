@@ -9,9 +9,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.MotionEvent;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -26,7 +24,7 @@ public class BoardView extends View {
     public ArrayList<SquareView> squares;
     public SquareView focused;
     public SquareView first, second, free, nullSquare;
-    public int boardWidth, cellWidth, cellPadding, boardPadding;
+    public int boardWidth, cellWidth, cellPadding, focusPadding, boardPadding;
     public boolean hasFocus;
     public Point focusCell;
 
@@ -59,6 +57,7 @@ public class BoardView extends View {
         boardWidth = 1430;
         boardPadding = 15;
         cellPadding = 45;
+        focusPadding = cellPadding + 10;
         cellWidth = (boardWidth - 2 * boardPadding) / 11;
         hasFocus = false;
         focusCell = new Point();
@@ -78,7 +77,9 @@ public class BoardView extends View {
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
                 SquareView s = new SquareView(free);
+
                 s.transform(x * cellWidth + boardPadding, y * cellWidth + boardPadding);
+
                 squares.add(s);
             }
         }
@@ -86,18 +87,15 @@ public class BoardView extends View {
             for (int x = 0; x < size; x++) {
                 Square sq = board.getSquare(x, y);
                 SquareType t = sq.getType();
-                //if (t == SquareType.FREE) continue;
+
                 if(t == SquareType.FIRST_PLAYER){
-                    SquareView s = new SquareView(first, x * cellWidth+boardPadding, y * cellWidth+boardPadding);
+                    SquareView s = new SquareView(first, x * cellWidth + boardPadding, y * cellWidth + boardPadding);
                     squares.add(s);
                 }
                 if(t == SquareType.SECOND_PLAYER){
-                    SquareView s = new SquareView(second, x * cellWidth+boardPadding, y * cellWidth+boardPadding);
+                    SquareView s = new SquareView(second, x * cellWidth + boardPadding, y * cellWidth + boardPadding);
                     squares.add(s);
-                }
-                //SquareView s = select(sq);
-                //s.transform(x * cellWidth + boardPadding, y * cellWidth + boardPadding);
-                //squares.add(s);
+                };
             }
         }
     }
@@ -132,7 +130,7 @@ public class BoardView extends View {
     }
 
     private void createFocused() {
-        focused = new SquareView(cellWidth, cellPadding + 10);
+        focused = new SquareView(cellWidth, focusPadding);
         focused.p.setColor(C.FIRST);
     }
 
@@ -155,14 +153,20 @@ public class BoardView extends View {
     }
 
     public void toggleTurn() {
-        TextView textView = ((Activity)getContext()).findViewById(R.id.player);
-//        TextView textView = findViewById(R.id.player);
-        if (focused.p.getColor() == C.FIRST) {
+        focused.pad = cellPadding;
+        squares.add(new SquareView(focused));
+        focused.pad = focusPadding;
+
+        TextView player1 = ((Activity)getContext()).findViewById(R.id.player1);
+        TextView player2 = ((Activity)getContext()).findViewById(R.id.player2);
+        if (game.isFirstPlayerTurn) {
             focused.p.setColor(C.SECOND);
-            textView.setBackgroundColor(C.SECOND);
+            player1.setVisibility(View.INVISIBLE);
+            player2.setVisibility(View.VISIBLE);
         } else {
             focused.p.setColor(C.FIRST);
-            textView.setBackgroundColor(C.FIRST);
+            player2.setVisibility(View.INVISIBLE);
+            player1.setVisibility(View.VISIBLE);
         }
     }
 

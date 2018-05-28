@@ -1,0 +1,9 @@
+writing to disk not working: error - expected a DATA_SECTOR
+
+the problem shows up when remounting a drive
+
+The same problem shows up when I delete more than just a file
+
+
+view constructers
+better way to get view from other view

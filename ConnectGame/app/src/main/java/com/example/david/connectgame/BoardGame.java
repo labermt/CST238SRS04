@@ -37,7 +37,9 @@ public class BoardGame {
         if(!isValidTurn(isFirstPlayerTurn,x,y)) {
             return false;
         }
-        SquareType player = isFirstPlayerTurn ? SquareType.FIRST_PLAYER : SquareType.SECOND_PLAYER;
+        SquareType player = isFirstPlayerTurn ?
+                SquareType.FIRST_PLAYER :
+                SquareType.SECOND_PLAYER;
         board.setSquare(x,y,player);
         return true;
     }

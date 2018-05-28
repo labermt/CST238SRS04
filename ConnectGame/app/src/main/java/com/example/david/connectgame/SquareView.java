@@ -16,13 +16,13 @@ public class SquareView {
         r2 = new Rect(x+pad, x, x+width-pad, x+width);
     }
     public SquareView(SquareView other, int x, int y) {
-        p = other.p;
+        p = new Paint(other.p);
         pad = other.pad;
         r1 = new Rect(other.r1); r1.offsetTo(x,y+pad);
         r2 = new Rect(other.r2); r2.offsetTo(x+pad,y);
     }
     public SquareView(SquareView other) {
-        p = other.p;
+        p = new Paint(other.p);
         pad = other.pad;
         r1 = new Rect(other.r1);
         r2 = new Rect(other.r2);
@@ -32,7 +32,6 @@ public class SquareView {
         this.pad = pad;
         r1 = new Rect(0,pad,width, width-pad);
         r2 = new Rect(pad,0,width-pad, width);
-
     }
 
 
