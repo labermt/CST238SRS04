@@ -1,6 +1,12 @@
 package com.example.david.connectgame;
 
+import android.graphics.Point;
+import android.util.Pair;
+
+import java.util.ArrayList;
+import java.util.Queue;
 import java.util.Random;
+import java.util.Stack;
 
 public class BoardGame {
     private Board board;
@@ -13,15 +19,17 @@ public class BoardGame {
         rand = new Random();
     }
 
-    public void Reset() {
-        board.Reset();
+    public void reset() {
+        board.reset();
     }
 
-    public boolean isValidTurn(boolean isFirstPlayerTurn, int x, int y) {
-        Square s = board.getSquare(x,y);
-        if(s.getType() != SquareType.FREE) return false;
+    public boolean isValidTurn(int x, int y) {
+        if(board.getType(x,y) != SquareType.FREE) return false;
 
-        SquareType player = isFirstPlayerTurn ? SquareType.FIRST_PLAYER : SquareType.SECOND_PLAYER;
+        SquareType player = isFirstPlayerTurn ?
+                SquareType.FIRST_PLAYER :
+                SquareType.SECOND_PLAYER;
+
         SquareType up = board.getType(x,y-1);
         SquareType down = board.getType(x,y+1);
         if(up == down && up == player) return true;
@@ -33,29 +41,75 @@ public class BoardGame {
         return false;
     }
 
-    public boolean takeTurn(boolean isFirstPlayerTurn, int x, int y){
-        if(!isValidTurn(isFirstPlayerTurn,x,y)) {
-            return false;
+    public void takeTurn(int x, int y){
+        if(isFirstPlayerTurn){
+            board.setSquare(x,y,SquareType.FIRST_PLAYER);
         }
+        else{
+            board.setSquare(x,y,SquareType.SECOND_PLAYER);
+        }
+    }
+    public void togglePlayer() {
+        isFirstPlayerTurn = isFirstPlayerTurn ? false : true;
+    }
+    public int size(){
+            return board.size();
+    }
+    public SquareType getType(int x, int y){
+        return board.getType(x,y);
+    }
+    public boolean won(){
         SquareType player = isFirstPlayerTurn ?
                 SquareType.FIRST_PLAYER :
                 SquareType.SECOND_PLAYER;
-        board.setSquare(x,y,player);
-        return true;
+
+        Boolean[][] grid = makeGrid();
+        floodFill(grid,0,0);
+        //true = original player square or checked
+        boolean result = hasFalse(grid);
+        return result;
+    }
+    public void autoTurn() {
+        int x = rand.nextInt(12);
+        int y = rand.nextInt(12);
+        while (!isValidTurn(x, y) ){
+            x = (x + 7) % 12;
+            y = (y + 5) % 12;
+        }
+        takeTurn(x,y);
     }
 
-    public boolean won(boolean isFirstPlayerTurn){
-        SquareType player = isFirstPlayerTurn ? SquareType.FIRST_PLAYER : SquareType.SECOND_PLAYER;
-        int length = board.size();
+    private void floodFill(Boolean[][] grid,int x, int y) {
+        if(
+                x < 0 || x >= grid.length ||
+                y < 0 || y >= grid.length ||
+                grid[y][x] == true
+          ) return;
 
-        Boolean[][] grid = new Boolean[length+2][length+2];
-        //create grid of board with extra padding. True = player square or checked.
-        for(int y=0; y < length+2; y++) {
-            for(int x=0; x < length+2; x++) {
-                if(y==0 || y==length+1 || x==0 || x==length+1){
-                    grid[y][x] = true;
-                    continue;
-                }
+        grid[y][x] = true;
+        floodFill(grid, x - 1, y - 1);
+        floodFill(grid, x, y - 1);
+        floodFill(grid, x + 1, y - 1);
+
+        floodFill(grid, x - 1, y);
+        floodFill(grid, x + 1, y);
+
+        floodFill(grid, x - 1, y + 1);
+        floodFill(grid, x, y + 1);
+        floodFill(grid, x + 1, y + 1);
+    }
+
+
+
+    private Boolean[][] makeGrid(){
+        SquareType player = isFirstPlayerTurn ?
+                SquareType.FIRST_PLAYER :
+                SquareType.SECOND_PLAYER;
+        int length = size();
+        Boolean[][] grid = new Boolean[length][length];
+        //True = player square
+        for(int y=0; y < length; y++) {
+            for(int x=0; x < length; x++) {
                 SquareType type = board.getType(x, y);
                 if (player == type) {
                     grid[y][x] = true;
@@ -64,48 +118,53 @@ public class BoardGame {
                 }
             }
         }
-        floodFill(grid,1,1);
-
-        return !isItFull(grid);
-    }
-    public void autoTurn() {
-        int x = rand.nextInt(12);
-        int y = rand.nextInt(12);
-        while (!takeTurn(isFirstPlayerTurn, x, y) ){
-            x = (x + 7) % 12;
-            y = (y + 5) % 12;
-        }
+        return grid;
     }
 
-    private void floodFill(Boolean[][] grid,int x, int y) {
-        if (grid[y][x] == false) {
-            grid[y][x] = true;
-            floodFill(grid, x - 1, y - 1);
-            floodFill(grid, x, y - 1);
-            floodFill(grid, x + 1, y - 1);
-
-            floodFill(grid, x - 1, y);
-            floodFill(grid, x + 1, y);
-
-            floodFill(grid, x - 1, y + 1);
-            floodFill(grid, x, y + 1);
-            floodFill(grid, x + 1, y + 1);
-        }
-    }
-
-    private boolean isItFull(Boolean[][] grid){
-        //idea from Mitch Besser
-        //if the grid has any cells that were not reached
-        //than there is either a loop, or the board is intersected
-
-        for(int i = 0; i < grid.length; i++){
+    private boolean hasFalse(Boolean[][] grid){
+        for(int i = 0; i < grid.length; i++)
             for(int j = 0; j < grid.length; j++)
-            {
-                if(!grid[i][j]) {
-                    return false;
+                if(grid[i][j] == false) return true;
+        return false;
+    }
+
+    private void alternateFlood(Integer[][] grid, int x, int y){
+        if(
+                x < 0 || x >= grid.length ||
+                        y < 0 || y >= grid.length ||
+                        grid[y][x] == 0 ) return;
+        grid[y][x]++;
+
+        alternateFlood(grid, x - 1, y - 1);
+        alternateFlood(grid, x, y - 1);
+        alternateFlood(grid, x + 1, y - 1);
+
+        alternateFlood(grid, x - 1, y);
+        alternateFlood(grid, x + 1, y);
+
+        alternateFlood(grid, x - 1, y + 1);
+        alternateFlood(grid, x, y + 1);
+        alternateFlood(grid, x + 1, y + 1);
+
+    }
+
+    private Integer[][] makeAlternateGrid(){
+        SquareType player = isFirstPlayerTurn ?
+                SquareType.FIRST_PLAYER :
+                SquareType.SECOND_PLAYER;
+        int length = size();
+        Integer[][] grid = new Integer[length][length];
+        //0 = not player, 1 = player
+        for(int y=0; y < length; y++) {
+            for(int x=0; x < length; x++) {
+                SquareType type = board.getType(x, y);
+                if (player == type) {
+                    grid[y][x] = 1;
+                } else {
+                    grid[y][x] = 0;
                 }
             }
         }
-        return true;
+        return grid;
     }
 }

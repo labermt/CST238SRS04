@@ -8,43 +8,37 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button button;
+    private Button button, reset, info;
     private BoardView board;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        findViewById(R.id.player2).setVisibility(View.INVISIBLE);
         button = findViewById(R.id.button);
         board = findViewById(R.id.boardView);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(board.hasFocus){
-                    SquareView player;
-                    boolean firstPlayerTurn = board.game.isFirstPlayerTurn;
-                    if(firstPlayerTurn){
-                        player = board.first;
-                    }
-                    else{
-                        player = board.second;
-                    }
-                    board.game.takeTurn(
-                            firstPlayerTurn,
-                            board.focusCell.x,
-                            board.focusCell.y);
-
-                    boolean won = board.game.won(board.game.isFirstPlayerTurn);
-                    if(won){
-                        ((Button)findViewById(R.id.button)).setText(R.string.won);
-                        findViewById(R.id.button).setFocusable(false);
-                        return;
-                    }
-                    board.toggleTurn();
+                    board.turn();
                 }
                 else{
-                    Toast.makeText(v.getContext(), "Select an open tile surrounded by your color", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            v.getContext(),
+                            "Select an open tile surrounded by your color",
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
+            }
+        });
+
+        reset = findViewById(R.id.reset);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                board.reset();
             }
         });
     }

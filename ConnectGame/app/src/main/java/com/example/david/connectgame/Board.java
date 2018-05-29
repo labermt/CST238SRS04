@@ -8,8 +8,7 @@ public class Board
     private int length;
     private final Square nullSquare = new Square(SquareType.NULL);
 
-    public Board(int homeRowPieces)
-    {
+    public Board(int homeRowPieces) {
         length = homeRowPieces > 0 ? homeRowPieces : 5;
         length = length * 2 + 1;
 
@@ -28,8 +27,7 @@ public class Board
         }
     }
 
-    public Board()
-    {
+    public Board() {
         int homeRowPieces = 5;
         length = homeRowPieces > 0 ? homeRowPieces : 5;
         length = length * 2 + 1;
@@ -41,60 +39,67 @@ public class Board
             squares.add(new ArrayList<Square>());
             for(int x = 0; x < length; x++)
             {
-                SquareType evenRow = (y%2 == 0 ? SquareType.FREE : SquareType.SECOND_PLAYER );
-                SquareType oddRow = (y%2 == 0 ? SquareType.FIRST_PLAYER : SquareType.FREE );
+                SquareType evenRow = (
+                        y%2 == 0 ?
+                                SquareType.FREE :
+                                SquareType.SECOND_PLAYER
+                );
+                SquareType oddRow = (
+                        y%2 == 0 ?
+                                SquareType.FIRST_PLAYER :
+                                SquareType.FREE
+                );
 
-                squares.get(y).add( new Square( (x%2 == 0) ? evenRow : oddRow) );
+                squares.get(y).add( new Square(
+                        (x%2 == 0) ?
+                                evenRow :
+                                oddRow)
+                );
             }
         }
     }
 
-    public boolean setSquare(int x, int y, SquareType type)
-    {
-        if( !isInRange(x, y) )
-        {
-            return false;
-        }
+    public void setSquare(int x, int y, SquareType type) {
         squares.get(y).get(x).set(type);
-        return true;
     }
 
-    public SquareType getType(int x, int y)
-    {
-        if(!isInRange(x, y)) { return SquareType.NULL; }
+    public SquareType getType(int x, int y) {
+        if(!isInRange(x, y)) {
+            return SquareType.NULL;
+        }
         return squares.get(y).get(x).getType();
     }
 
-    public Square getSquare(int x, int y)
-    {
-        return isInRange(x, y) ? squares.get(y).get(x) : nullSquare;
+    public Square getSquare(int x, int y) {
+        return isInRange(x, y) ?
+                squares.get(y).get(x) :
+                nullSquare;
     }
 
-    public ArrayList<ArrayList<Square>> getBoard()
-    {
+    public ArrayList<ArrayList<Square>> getBoard() {
+
         return squares;
     }
 
-    public boolean isInRange(int x, int y)
-    {
-        return x >=0 && y >= 0 && x < length && y < length;
+    public boolean isInRange(int x, int y) {
+
+        return x >=0 &&
+                y >= 0 &&
+                x < length &&
+                y < length;
     }
 
-    public void Reset()
-    {
-        for(int i=0; i < squares.size(); i++)
-        {
+    public void reset() {
+        for(int i=0; i < squares.size(); i++) {
             squares.get(i).clear();
         }
         squares.clear();
 
         squares = new ArrayList<>();
 
-        for(int y = 0; y < length; y++)
-        {
+        for(int y = 0; y < length; y++) {
             squares.add(new ArrayList<Square>());
-            for(int x = 0; x < length; x++)
-            {
+            for(int x = 0; x < length; x++) {
                 SquareType evenRow = (y%2 == 0 ? SquareType.FREE : SquareType.SECOND_PLAYER );
                 SquareType oddRow = (y%2 == 0 ? SquareType.FIRST_PLAYER : SquareType.FREE );
 
@@ -103,5 +108,7 @@ public class Board
         }
     }
 
-    public int size() { return length; }
+    public int size() {
+        return length;
+    }
 }

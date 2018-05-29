@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.MotionEvent;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,8 +17,6 @@ import java.util.ArrayList;
 
 public class BoardView extends View {
 
-
-    public Board board;
     public BoardGame game;
     public Rect background;
     public Paint backgroundPaint;
@@ -25,7 +24,7 @@ public class BoardView extends View {
     public SquareView focused;
     public SquareView first, second, free, nullSquare;
     public int boardWidth, cellWidth, cellPadding, focusPadding, boardPadding;
-    public boolean hasFocus;
+    public boolean hasFocus, won;
     public Point focusCell;
 
     public BoardView(Context c, AttributeSet a) {
@@ -35,12 +34,11 @@ public class BoardView extends View {
 
         initializeComponents();
         setupBoard();
-        int j;
 
         setOnTouchListener( new View.OnTouchListener(){
                                 @Override
                                 public boolean onTouch(View v, MotionEvent e) {
-                                    manageTouch(e);
+                                    if(!won) manageTouch(e);
                                     return true;
                                 }
                             }
@@ -51,8 +49,7 @@ public class BoardView extends View {
     }
 
     private void initializeComponents() {
-        board = new Board();
-        game = new BoardGame(board);
+        game = new BoardGame(new Board());
         squares = new ArrayList<>();
         boardWidth = 1430;
         boardPadding = 15;
@@ -60,6 +57,7 @@ public class BoardView extends View {
         focusPadding = cellPadding + 10;
         cellWidth = (boardWidth - 2 * boardPadding) / 11;
         hasFocus = false;
+        won = false;
         focusCell = new Point();
 
         createFirst();
@@ -73,29 +71,45 @@ public class BoardView extends View {
         focused.p.setColor(C.FIRST);
     }
     private void setupBoard(){
-        int size = board.size();
+        int size = game.size();
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                SquareView s = new SquareView(free);
-
-                s.transform(x * cellWidth + boardPadding, y * cellWidth + boardPadding);
+                if( (y==0 && x==0) ||
+                    (y==0 && x == size-1) ||
+                    (y==size-1 && x == 0) ||
+                    (y==size-1 && x == size-1)
+                  ) continue;
+                Point pos = getScreenPosition(x,y);
+                SquareView s = new SquareView(free,
+                        pos.x,
+                        pos.y
+                );
 
                 squares.add(s);
             }
         }
+
+
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                Square sq = board.getSquare(x, y);
-                SquareType t = sq.getType();
-
+                SquareType t = game.getType(x,y);
+                Point pos = getScreenPosition(x,y);
                 if(t == SquareType.FIRST_PLAYER){
-                    SquareView s = new SquareView(first, x * cellWidth + boardPadding, y * cellWidth + boardPadding);
+                    SquareView s = new SquareView(
+                            first,
+                            pos.x,
+                            pos.y
+                    );
                     squares.add(s);
                 }
-                if(t == SquareType.SECOND_PLAYER){
-                    SquareView s = new SquareView(second, x * cellWidth + boardPadding, y * cellWidth + boardPadding);
+                else if(t == SquareType.SECOND_PLAYER){
+                    SquareView s = new SquareView(
+                            second,
+                            pos.x,
+                            pos.y
+                    );
                     squares.add(s);
-                };
+                }
             }
         }
     }
@@ -152,33 +166,88 @@ public class BoardView extends View {
         return square;
     }
 
-    public void toggleTurn() {
-        focused.pad = cellPadding;
-        squares.add(new SquareView(focused));
-        focused.pad = focusPadding;
-
+    private void refreshColor() {
         TextView player1 = ((Activity)getContext()).findViewById(R.id.player1);
         TextView player2 = ((Activity)getContext()).findViewById(R.id.player2);
         if (game.isFirstPlayerTurn) {
-            focused.p.setColor(C.SECOND);
-            player1.setVisibility(View.INVISIBLE);
-            player2.setVisibility(View.VISIBLE);
-        } else {
             focused.p.setColor(C.FIRST);
-            player2.setVisibility(View.INVISIBLE);
             player1.setVisibility(View.VISIBLE);
+            player2.setVisibility(View.INVISIBLE);
+        } else {
+            focused.p.setColor(C.SECOND);
+            player2.setVisibility(View.VISIBLE);
+            player1.setVisibility(View.INVISIBLE);
         }
+    }
+    public void turn(){
+        Point screenPosition = getScreenPosition(focusCell.x, focusCell.y);
+        if(game.isFirstPlayerTurn){
+            squares.add( new SquareView(
+                    first,
+                    screenPosition.x,
+                    screenPosition.y
+                    ));
+        }
+        else{
+            squares.add( new SquareView(
+                    second,
+                    screenPosition.x,
+                    screenPosition.y
+            ));
+        }
+        hasFocus = false;
+        game.takeTurn(focusCell.x,focusCell.y);
+        if(game.won()){
+            setWin();
+        }
+        else {
+            game.togglePlayer();
+            refreshColor();
+        }
+        invalidate();
+    }
+
+    public void reset(){
+        game.reset();
+        squares.clear();
+        initializeComponents();
+        ((Activity) getContext()).findViewById(R.id.button).setEnabled(true);
+        this.setEnabled(true);
+        setupBoard();
+        invalidate();
     }
 
     private Point getCellPosition(int xPixel, int yPixel) {
         return new Point((xPixel - boardPadding) / cellWidth, (yPixel - boardPadding) / cellWidth);
     }
+    private Point getScreenPosition(int xCell, int yCell){
+        return new Point(
+                xCell * cellWidth + boardPadding,
+                yCell * cellWidth + boardPadding
+        );
+    }
+    private void setWin(){
+        String color =
+        game.isFirstPlayerTurn ?
+            "Blue" :
+            "Red";
+        Button b = ((Activity) getContext()).findViewById(R.id.button);
+        b.setText(color + " wins!!!");
+        b.setEnabled(false);
+        this.setEnabled(false);
+        won = true;
+    }
+
 
     private void manageTouch(MotionEvent e){
-        Point p = getCellPosition((int)e.getX(), (int)e.getY());
-        SquareType s = board.getType(p.x, p.y);
-        if(s == SquareType.FREE  && game.isValidTurn(game.isFirstPlayerTurn, p.x,p.y) ){
-            focused.moveTo(p.x*cellWidth+boardPadding,p.y*cellWidth+boardPadding);
+        focusCell = getCellPosition((int)e.getX(), (int)e.getY());
+        SquareType s = game.getType(focusCell.x, focusCell.y);
+        Point pos = getScreenPosition(focusCell.x, focusCell.y);
+        if(s == SquareType.FREE  && game.isValidTurn(focusCell.x,focusCell.y) ){
+            focused.moveTo(
+                    pos.x,
+                    pos.y
+            );
             hasFocus = true;
         }
         else{
@@ -186,31 +255,4 @@ public class BoardView extends View {
         }
         invalidate();
     }
-
 }
-
-/*
-        Button b = findViewById(R.id.button);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(game.isValidTurn(game.isFirstPlayerTurn,focusCell.x,focusCell.y)){
-                    SquareView player = game.isFirstPlayerTurn ? first : second;
-                    game.takeTurn(game.isFirstPlayerTurn,focusCell.x,focusCell.y);
-                    squares.add(
-                            new SquareView(player, focusCell.x * cellWidth + boardPadding, focusCell.y * cellWidth + boardPadding)
-                    );
-
-                    if(game.won(game.isFirstPlayerTurn)){
-                        ((Button)findViewById(R.id.button)).setText("YOU WON!");
-                        findViewById(R.id.button).setFocusable(false);
-                        return;
-                    }
-                    toggleTurn();
-                }
-                else{
-                    Toast.makeText(v.getContext(), "Select an open tile surrounded by your color", Toast.LENGTH_SHORT);
-                }
-            }
-        });
-        */
