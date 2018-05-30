@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
     public int originx =0, originy=0, ssx=0,ssy=0;
-    public boolean Checkstart= false;
+    public boolean AllowInput= true;
     public boolean didIStart, didIEnd;
 
 
@@ -125,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttons[j][i].setBackgroundColor(getResources().getColor(R.color.lblue));
             }
         }
+        AllowInput = true;
     }
 
     public void PlayerWon(String player)
@@ -158,38 +160,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Twarning.show();
     }
 
-    public boolean OpponentMove()
+    public int[] CheckAiMove(int[] xy)
     {
-        RefillCont();
         Random rand = new Random();
-        int x = rand.nextInt(10);
-        int y = rand.nextInt(10);
-
-        if ((x == 0 && y == 0) || (x == 10 && y == 0) || (x == 10 && y == 10) || (x == 0 && y == 10))
+        if ((xy[0] == 0 && xy[1] == 0) || (xy[0] == 10 && xy[1] == 0) || (xy[0] == 10 && xy[1] == 10) || (xy[0] == 0 && xy[1] == 10))
         {
-            x = rand.nextInt(10);
-            y = rand.nextInt(10);
+            xy[0] = rand.nextInt(10);
+            xy[1] = rand.nextInt(10);
+            return CheckAiMove(xy);
         }
 
-        switch(x)
+        switch(xy[0])
         {
             case 1:
             case 3:
             case 5:
             case 7:
             case 9:
-                if(y == 10 || y == 0) x = rand.nextInt(10);
+                if(xy[1] == 10 || xy[1] == 0)
+                {
+                    xy[0] = rand.nextInt(10);
+                    return CheckAiMove(xy);
+                }
                 break;
 
         }
 
+        return xy;
+    }
 
-        if(Cont[x][y].equals(""))
+    public boolean OpponentMove()
+    {
+        RefillCont();
+        Random rand = new Random();
+        int[] xy = new int[2];
+        xy[0] = rand.nextInt(10);
+        xy[1] = rand.nextInt(10);
+
+        xy = CheckAiMove(xy);
+
+        if(Cont[xy[0]][xy[1]].equals(""))
         {
-            buttons[x][y].setText("O");
-            buttons[x][y].setBackgroundColor(getResources().getColor(R.color.lblue));
+            buttons[xy[0]][xy[1]].setText("O");
+            buttons[xy[0]][xy[1]].setBackgroundColor(getResources().getColor(R.color.lblue));
             player1turn = true;
-            if(checkForStart("O",x,y))
+            if(checkForStart("O",xy[0],xy[1]))
             {
                 buttReset();
             }
@@ -203,110 +218,101 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v)
-    {
-        //If this button's text equals an empty string
-        //then the button has not been clicked.
-        //Therefore it should change.
-        ((Button) v).setError(null);
-        if (!((Button) v).getText().toString().equals(""))
+    public void onClick(View v) {
+        if (AllowInput)
         {
-            return;
-        }
+            //If this button's text equals an empty string
+            //then the button has not been clicked.
+            //Therefore it should change.
+            ((Button) v).setError(null);
+            if (!((Button) v).getText().toString().equals("")) {
+                return;
+            }
 
-        if(player1turn)
-        {
-            switch(v.getId())
-            {
-                case R.id.button_0_0:
-                    ((Button)v).setError("INVALID");
-                    LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
-                    break;
-                case R.id.button_0_2:
-                    ((Button)v).setError("INVALID");
-                    LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
-                    break;
-                case R.id.button_0_4:
-                    ((Button)v).setError("INVALID");
-                    LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
-                    break;
-                case R.id.button_0_6:
-                    ((Button)v).setError("INVALID");
-                    LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
-                    break;
-                case R.id.button_0_8:
-                    ((Button)v).setError("INVALID");
-                    LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
-                    break;
-                case R.id.button_0_10:
-                    ((Button)v).setError("INVALID");
-                    LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
-                    break;
+            if (player1turn) {
+                switch (v.getId()) {
+                    case R.id.button_0_0:
+                        ((Button) v).setError("INVALID");
+                        LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
+                        break;
+                    case R.id.button_0_2:
+                        ((Button) v).setError("INVALID");
+                        LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
+                        break;
+                    case R.id.button_0_4:
+                        ((Button) v).setError("INVALID");
+                        LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
+                        break;
+                    case R.id.button_0_6:
+                        ((Button) v).setError("INVALID");
+                        LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
+                        break;
+                    case R.id.button_0_8:
+                        ((Button) v).setError("INVALID");
+                        LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
+                        break;
+                    case R.id.button_0_10:
+                        ((Button) v).setError("INVALID");
+                        LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
+                        break;
 
-                case R.id.button_10_0:
-                    ((Button)v).setError("INVALID");
-                    LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
-                    break;
+                    case R.id.button_10_0:
+                        ((Button) v).setError("INVALID");
+                        LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
+                        break;
 
-                case R.id.button_10_10:
-                    ((Button)v).setError("INVALID");
-                    LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
-                    break;
-                case R.id.button_10_2:
-                    ((Button)v).setError("INVALID");
-                    LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
-                    break;
-                case R.id.button_10_4:
-                    ((Button)v).setError("INVALID");
-                    LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
+                    case R.id.button_10_10:
+                        ((Button) v).setError("INVALID");
+                        LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
+                        break;
+                    case R.id.button_10_2:
+                        ((Button) v).setError("INVALID");
+                        LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
+                        break;
+                    case R.id.button_10_4:
+                        ((Button) v).setError("INVALID");
+                        LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
 
-                    break;
-                case R.id.button_10_6:
-                    ((Button)v).setError("INVALID");
-                    LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
-                    break;
-                case R.id.button_10_8:
-                    ((Button)v).setError("INVALID");
-                    LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
-                    break;
+                        break;
+                    case R.id.button_10_6:
+                        ((Button) v).setError("INVALID");
+                        LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
+                        break;
+                    case R.id.button_10_8:
+                        ((Button) v).setError("INVALID");
+                        LetsToast("Sorry, You Cannot Place Your Mark There", getResources().getColor(R.color.dred));
+                        break;
 
-                default:
-                    ((Button) v).setText("X");
-                    ((Button) v).setBackgroundColor(getResources().getColor(R.color.lgreen));
-                    player1turn = false;
+                    default:
+                        ((Button) v).setText("X");
+                        ((Button) v).setBackgroundColor(getResources().getColor(R.color.lgreen));
+                        player1turn = false;
 
-                    for (int i = 0; i < 11; i++)
-                    {
-                        for (int j = 0; j < 11; j++)
-                        {
-                            if(findViewById(v.getId()) == buttons[i][j])
-                            {
-                                if(checkForStart("X",i,j))
-                                {
-                                    buttReset();
+                        for (int i = 0; i < 11; i++) {
+                            for (int j = 0; j < 11; j++) {
+                                if (findViewById(v.getId()) == buttons[i][j]) {
+                                    if (checkForStart("X", i, j)) {
+                                        buttReset();
+                                    }
                                 }
                             }
                         }
-                    }
-                    //String temp = v.getTag().toString();
-                    //int x = GetMenugs("X",temp);
-                    //int y = GetMenugs("Y", temp);
-                    //checkForStart("X",x,y);
+                        //String temp = v.getTag().toString();
+                        //int x = GetMenugs("X",temp);
+                        //int y = GetMenugs("Y", temp);
+                        //checkForStart("X",x,y);
+                }
+
+            }
+            if (!player1turn) {
+
+                OpponentMove();
             }
 
+            roundCount++;
+
+
         }
-        if(!player1turn)
-        {
-
-            OpponentMove();
-        }
-
-        roundCount++;
-
-
-
-
-
     }
     public void RefillCont()
     {
@@ -339,14 +345,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean checkForWin(String tc, int tx, int ty, int trav) {
 
         trav++;
-        if(originx == tx && originy == ty && trav >= 7)
+        if((originx == tx && originy == ty && trav >= 7) || ((didIEnd && didIStart) && trav >= 7))
         {
             PlayerWon(tc);
-            return true;
-        }
-        else if((didIEnd && didIStart) && trav >= 7)
-        {
-            PlayerWon(tc);
+
             return true;
         }
 
