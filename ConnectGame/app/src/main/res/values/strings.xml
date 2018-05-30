@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Connect.Game</string>
     <string name="won">YOU WON!</string>
+    <string name="endTurn">End Turn</string>
     </resources>

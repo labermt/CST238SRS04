@@ -211,7 +211,9 @@ public class BoardView extends View {
         game.reset();
         squares.clear();
         initializeComponents();
-        ((Activity) getContext()).findViewById(R.id.button).setEnabled(true);
+        Button b = ((Activity) getContext()).findViewById(R.id.button);
+        b.setEnabled(true);
+        b.setText(R.string.endTurn);
         this.setEnabled(true);
         setupBoard();
         invalidate();
