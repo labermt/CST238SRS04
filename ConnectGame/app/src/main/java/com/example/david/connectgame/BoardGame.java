@@ -1,21 +1,16 @@
 package com.example.david.connectgame;
 
-import android.graphics.Point;
-import android.util.Pair;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Queue;
 import java.util.Random;
-import java.util.Stack;
 
 public class BoardGame {
     private Board board;
     private Random rand;
+    private PathFinder winChecker;
     public boolean isFirstPlayerTurn;
 
     public BoardGame(Board board){
         this.board = board;
+        winChecker = new PathFinder(this);
         isFirstPlayerTurn = true;
         rand = new Random();
     }
@@ -60,71 +55,7 @@ public class BoardGame {
         return board.getType(x,y);
     }
     public boolean won(){
-        SquareType player = isFirstPlayerTurn ?
-                SquareType.FIRST_PLAYER :
-                SquareType.SECOND_PLAYER;
-
-        Boolean[][] grid = makeGrid();
-        Boolean[][] bruteForceGrid = new Boolean[grid.length][grid.length];
-        boolean homeRowIsVertical = false;
-            SquareType type = getType(1,2);
-            homeRowIsVertical = (player == type);
-
-        if(homeRowIsVertical){
-            for(int i = 1; i < grid.length-1; i++){
-                for(int j = 1; j < grid.length-1; j++){
-                    bruteForceGrid = copyBoolArray(grid);
-                    bruteForceGrid[i][0] = true;
-                    bruteForceGrid[j][grid.length-1] = true;
-                    floodFill(bruteForceGrid, 0, 0);
-                    if(hasFalse(bruteForceGrid)){
-                        return true;
-                    }
-                }
-            }
-        }
-        else {
-            for(int i = 1; i < grid.length-1; i++){
-                for(int j = 1; j < grid.length-1; j++){
-                    bruteForceGrid = copyBoolArray(grid);
-                    bruteForceGrid[0][i] = true;
-                    bruteForceGrid[grid.length-1][j] = true;
-                    floodFill(bruteForceGrid, 0, 0);
-                    if(hasFalse(bruteForceGrid)){
-                        return true;
-                    }
-                }
-            }
-        }
-
-/*
-        if(homeRowIsVertical){
-            for(int i = 2; i < grid.length-2; i+=2){
-                for(int j = 2; j < grid.length-2; j+=2){
-                    copyBoolArray(grid, bruteForceGrid);
-                    bruteForceGrid[i][1] = true;
-                    bruteForceGrid[j][grid.length-2] = true;
-                    floodFill(bruteForceGrid, 0, 0);
-                    if(hasFalse(bruteForceGrid)){
-                        return true;
-                    }
-                }
-            }
-        }
-        else {
-            for (int i = 2; i < grid.length-2; i += 2) {
-                for (int j = 2; j < grid.length-2; j += 2) {
-                    copyBoolArray(grid, bruteForceGrid);
-                    bruteForceGrid[1][i] = true;
-                    bruteForceGrid[grid.length-2][j] = true;
-                    floodFill(bruteForceGrid, 0, 0);
-                    if (hasFalse(bruteForceGrid)) {
-                        return true;
-                    }
-                }
-            }
-        }*/
-        return false;
+        return winChecker.checkIfWon();
     }
     public void autoTurn() {
         int x = rand.nextInt(12);
@@ -209,4 +140,8 @@ public class BoardGame {
                 if(grid[i][j] == false) return true;
         return false;
     }
+
+
+
+
 }
