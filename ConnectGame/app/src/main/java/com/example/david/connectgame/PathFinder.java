@@ -57,14 +57,10 @@ public class PathFinder implements IWinChecker{
 
     private ArrayList<PathNode> getValidNeighbors(PathNode current, PathNode parent){
         ArrayList<PathNode> neighbors = new ArrayList<>();
-        addIfValid(neighbors, parent, current.location.x-1, current.location.y-1);
         addIfValid(neighbors, parent, current.location.x, current.location.y-1);
-        addIfValid(neighbors, parent,current.location.x+1, current.location.y-1);
         addIfValid(neighbors, parent,current.location.x-1, current.location.y);
         addIfValid(neighbors, parent,current.location.x+1, current.location.y);
-        addIfValid(neighbors, parent,current.location.x-1, current.location.y+1);
         addIfValid(neighbors, parent, current.location.x, current.location.y+1);
-        addIfValid(neighbors, parent,current.location.x+1, current.location.y+1);
 
         return neighbors;
     }
@@ -106,17 +102,19 @@ public class PathFinder implements IWinChecker{
     }
 
     private void runPathFinder(PathNode node, PathNode parent){
-        if(node.isChecked() || foundLoopOrLine)return;
+        if(foundLoopOrLine)return;
+        if(node.isChecked()){
+            if(node.location.equals(node.root) &&
+                    !node.location.equals(parent.location) ) {
+                setFound();
+            }
+            return;
+        }
+        node.setAsChecked();
+        node.root = parent.root;
         ArrayList<PathNode> nodes = getValidNeighbors(node, parent);
         for(PathNode n: nodes){
-            if(n.root == node.root){
-                setFound();
-                return;
-            }
-            else{
-                n.root = node.root;
-                runPathFinder(n, node);
-            }
+            runPathFinder(n, node);
         }
     }
 }

@@ -1,18 +1,28 @@
 package com.example.david.connectgame;
 
+import android.graphics.Point;
+import android.support.v4.util.Pair;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 public class BoardGame {
     private Board board;
     private Random rand;
-    private PathFinder winChecker;
+    private IWinChecker winChecker;
     public boolean isFirstPlayerTurn;
+    private Point lastPoint;
 
     public BoardGame(Board board){
         this.board = board;
-        winChecker = new PathFinder(this);
+
+        winChecker = new Checker(this);
+        //winChecker = new PathFinder(this);
+        //winChecker = new LoopOrLineChecker(this);
+
         isFirstPlayerTurn = true;
         rand = new Random();
+        lastPoint = new Point();
     }
 
     public void reset() {
@@ -44,6 +54,8 @@ public class BoardGame {
         else{
             board.setSquare(x,y,SquareType.SECOND_PLAYER);
         }
+        lastPoint.x = x;
+        lastPoint.y = y;
     }
     public void togglePlayer() {
         isFirstPlayerTurn = isFirstPlayerTurn ? false : true;
@@ -66,82 +78,40 @@ public class BoardGame {
         }
         takeTurn(x,y);
     }
-
-    private void floodFill(Boolean[][] grid,int x, int y) {
-        if(
-                x < 0 || x >= grid.length ||
-                y < 0 || y >= grid.length ||
-                grid[y][x] == true
-          ) return;
-
-        grid[y][x] = true;
-        floodFill(grid, x - 1, y - 1);
-        floodFill(grid, x, y - 1);
-        floodFill(grid, x + 1, y - 1);
-
-        floodFill(grid, x - 1, y);
-        floodFill(grid, x + 1, y);
-
-        floodFill(grid, x - 1, y + 1);
-        floodFill(grid, x, y + 1);
-        floodFill(grid, x + 1, y + 1);
-    }
-
-
-
-    private Boolean[][] makeGrid(){
-        SquareType player = isFirstPlayerTurn ?
-                SquareType.FIRST_PLAYER :
-                SquareType.SECOND_PLAYER;
-        int length = size()+2;
-        Boolean[][] grid = new Boolean[length][length];
-        //True = player square
-        for(int y=0; y < length; y++) {
-            for(int x=0; x < length; x++) {
-                if(
-                        x==0 || x==length-1 ||
-                        y == 0 || y == length-1
-                   ){
-                    grid[y][x] = false;
-                    continue;
-                }
-                SquareType type = board.getType(x, y);
-                if (player == type) {
-                    grid[y][x] = true;
-                } else {
-                    grid[y][x] = false;
+    public ArrayList<Point> getAllPlayerCells(SquareType player){
+        ArrayList<Point> points = new ArrayList<>();
+        for(int y = 0; y < size(); y++){
+            for(int x = 0; x < size(); x++){
+                if(getType(x,y) == player){
+                    points.add(new Point(x,y));
                 }
             }
         }
-        return grid;
+        return points;
     }
-
-    private Boolean[][] copyBoolArray(Boolean[][] source){
-        Boolean[][] copy = new Boolean[source.length][source.length];
-        for(int i = 0; i < source.length; i++){
-            for(int j = 0; j < source.length; j++){
-                copy[i][j] = source[i][j];
+    public SquareType getCurrentPlayerType(){
+        if(isFirstPlayerTurn){
+            return SquareType.FIRST_PLAYER;
+        }
+        return SquareType.SECOND_PLAYER;
+    }
+    public Point getLastPoint(){
+        return lastPoint;
+    }
+    public Pair<ArrayList<Point>,ArrayList<Point>> getHomeRowPoints(){
+        ArrayList row1 = new ArrayList<>();
+        ArrayList row2 = new ArrayList<>();
+        SquareType player = getCurrentPlayerType();
+        for(int i = 1; i < size()-1; i+=2){
+            if(getType(i,0) == player){
+                row1.add(new Point(i,0));
+                row2.add(new Point(i,size()-1));
+            }
+            else{
+                row1.add(new Point(0,i));
+                row2.add(new Point(size()-1, i));
             }
         }
-        return copy;
+        return new Pair(row1,row2);
     }
-
-    private void copyBoolArray(Boolean[][] source, Boolean[][] destination){
-        for(int i = 0; i < source.length; i++){
-            for(int j = 0; j < source.length; j++){
-                destination[i][j] = source[i][j];
-            }
-        }
-    }
-
-    private boolean hasFalse(Boolean[][] grid){
-        for(int i = 0; i < grid.length; i++)
-            for(int j = 0; j < grid.length; j++)
-                if(grid[i][j] == false) return true;
-        return false;
-    }
-
-
-
-
 }
