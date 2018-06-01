@@ -68,6 +68,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void Rules(View view)
+    {
+
+    }
+
     void player1OnChange(int color)
     {
         ImageView image = findViewById(R.id.p1ImageView);
