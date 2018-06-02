@@ -17,8 +17,6 @@ public class BoardGame {
         this.board = board;
 
         winChecker = new Checker(this);
-        //winChecker = new PathFinder(this);
-        //winChecker = new LoopOrLineChecker(this);
 
         isFirstPlayerTurn = true;
         rand = new Random();

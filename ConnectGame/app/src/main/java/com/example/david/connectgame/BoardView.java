@@ -17,36 +17,36 @@ import java.util.ArrayList;
 
 public class BoardView extends View {
 
-    public BoardGame game;
-    public Rect background;
-    public Paint backgroundPaint;
-    public ArrayList<SquareView> squares;
-    public SquareView focused;
-    public SquareView first, second, free, nullSquare;
-    public int boardWidth, cellWidth, cellPadding, focusPadding, boardPadding;
-    public boolean hasFocus, won;
-    public Point focusCell;
+        public BoardGame game;
+        public Rect background;
+        public Paint backgroundPaint;
+        public ArrayList<SquareView> squares;
+        public SquareView focused;
+        public SquareView first, second, free, nullSquare;
+        public int boardWidth, cellWidth, cellPadding, focusPadding, boardPadding;
+        public boolean hasFocus, won;
+        public Point focusCell;
 
-    public BoardView(Context c, AttributeSet a) {
-        super(c, a);
-        setFocusable(true);
-        setFocusableInTouchMode(true);
+        public BoardView(Context c, AttributeSet a) {
+            super(c, a);
+            setFocusable(true);
+            setFocusableInTouchMode(true);
 
-        initializeComponents();
-        setupBoard();
+            initializeComponents();
+            setupBoard();
 
-        setOnTouchListener( new View.OnTouchListener(){
-                                @Override
-                                public boolean onTouch(View v, MotionEvent e) {
-                                    if(!won) manageTouch(e);
-                                    return true;
+            setOnTouchListener( new View.OnTouchListener(){
+                                    @Override
+                                    public boolean onTouch(View v, MotionEvent e) {
+                                        if(!won) manageTouch(e);
+                                        return true;
+                                    }
                                 }
-                            }
-        );
+            );
 
 
 
-    }
+        }
 
     private void initializeComponents() {
         game = new BoardGame(new Board());
@@ -216,6 +216,7 @@ public class BoardView extends View {
         b.setText(R.string.endTurn);
             ((Activity) getContext()).findViewById(R.id.player2).setVisibility(INVISIBLE);
             ((Activity) getContext()).findViewById(R.id.player1).setVisibility(VISIBLE);
+        
         this.setEnabled(true);
         setupBoard();
         invalidate();
