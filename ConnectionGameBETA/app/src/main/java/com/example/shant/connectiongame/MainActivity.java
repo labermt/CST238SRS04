@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.nio.charset.Charset;
@@ -23,15 +22,11 @@ public class MainActivity extends AppCompatActivity
     private LinearLayout ConnectBoard;
     private TextView GameStatus;
     private Button ResetGame;
-    private Button Tutorial;
-    private Button LastOTurn;
     private void CreateBoard()
     {
         /* https://stackoverflow.com/questions/7195056/how-do-i-programmatically-add-buttons-into-layout-one-by-one-in-several-lines */
         GameStatus = new TextView(this);
         ResetGame = new Button(this);
-        Tutorial = new Button(this);
-        LastOTurn = new Button(this);
         ResetGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +38,6 @@ public class MainActivity extends AppCompatActivity
         ButtonArray = new Button[7][7];
         for (int i = 0; i<7; i++)
         {
-            GameStatus.setText("x turn");
             LinearLayout Row = new LinearLayout(this);
             Row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             for (int j = 0; j < 7; j++)
@@ -51,7 +45,6 @@ public class MainActivity extends AppCompatActivity
                 ButtonArray[i][j] = new Button(this);
                 final Button btnTag = ButtonArray[i][j];
                 final int y_value = j;
-                GameStatus.setText("x turn");
                 btnTag.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 btnTag.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -64,19 +57,14 @@ public class MainActivity extends AppCompatActivity
                         {
                             if (y_value == 0)
                             {
-                                Toast.makeText(MainActivity.this, "Cannot mark here!", Toast.LENGTH_SHORT).show();
                                 return;
                             }
                             if (y_value == 6)
                             {
-                                Toast.makeText(MainActivity.this, "Cannot mark here!", Toast.LENGTH_SHORT).show();
                                 return;
                             }
                             btnTag.setText("x");
-                            btnTag.setBackgroundColor(Color.BLUE);
-                            btnTag.setTextColor(Color.WHITE);
                             x_turn = false;
-                            GameStatus.setText("o turn");
                             int count = 0;
                             Random random = new Random();
                             int random_row;
@@ -93,26 +81,7 @@ public class MainActivity extends AppCompatActivity
                                 count++;
                             }
                             while (ButtonArray[random_row][random_column].getText() != "" && count != 49);
-                            LastOTurn.setBackgroundColor(Color.RED);
-                            LastOTurn.setTextColor(Color.WHITE);
                             ButtonArray[random_row][random_column].setText("o");
-                            ButtonArray[random_row][random_column].setTextColor(Color.WHITE);
-                            ButtonArray[random_row][random_column].setBackgroundColor(Color.YELLOW);
-                            ButtonArray[random_row][random_column].setTextColor(Color.BLACK);
-                            LastOTurn = ButtonArray[random_row][random_column];
-                            if (CheckForWin())
-                            {
-                                String winner = x_turn? "x wins":"o wins";
-                                GameStatus.setText(winner);
-                                ResetGame.setVisibility(View.VISIBLE);
-                                for (int i=0; i<7; i++)
-                                {
-                                    for (int j = 0; j<7; j++)
-                                    {
-                                        ButtonArray[i][j].setEnabled(false);
-                                    }
-                                }
-                            }
                             x_turn = true;
                             if (CheckForWin())
                             {
@@ -157,14 +126,10 @@ public class MainActivity extends AppCompatActivity
                 else if (i%2 == 1 && j%2 == 0)
                 {
                     btnTag.setText("o");
-                    btnTag.setTextColor(Color.WHITE);
-                    btnTag.setBackgroundColor(Color.RED);
                 }
                 else if (i%2 == 0 && j%2 == 1)
                 {
                     btnTag.setText("x");
-                    btnTag.setTextColor(Color.WHITE);
-                    btnTag.setBackgroundColor(Color.BLUE);
                 }
                 btnTag.setLayoutParams(new LinearLayout.LayoutParams(150,150));
                 btnTag.setId(j + 1 + (i * 4));
@@ -182,17 +147,10 @@ public class MainActivity extends AppCompatActivity
         ResetGameDisplay.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         ResetGameDisplay.addView(ResetGame);
         ResetGame.setText("Reset Game");
-
-        LinearLayout TutorialDisplay = new LinearLayout(this);
-        TutorialDisplay.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        TutorialDisplay.addView(Tutorial);
-        Tutorial.setText("Tutorial");
-
+        ResetGame.setVisibility(View.INVISIBLE);
         ConnectBoard.addView(ResetGameDisplay);
-        ConnectBoard.addView(TutorialDisplay);
 
         setContentView(ConnectBoard);
-        GameStatus.setText("x turn");
         //setContentView(R.layout.main);
     }
 
@@ -281,11 +239,6 @@ public class MainActivity extends AppCompatActivity
                 {
                     if (ButtonArray[i][j].getText() == "x")
                     {
-                        FloodButtonArray[i][j] = "";
-                    }
-                    else if (ButtonArray[i][j].getText().toString() == "n")
-                    {
-                        //FloodButtonArray[i][j].setEnabled(true);
                         FloodButtonArray[i][j] = "";
                     }
                     else
@@ -416,4 +369,3 @@ public class MainActivity extends AppCompatActivity
         CreateBoard();
     }
 }
-
