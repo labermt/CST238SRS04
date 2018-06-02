@@ -214,6 +214,8 @@ public class BoardView extends View {
         Button b = ((Activity) getContext()).findViewById(R.id.button);
         b.setEnabled(true);
         b.setText(R.string.endTurn);
+            ((Activity) getContext()).findViewById(R.id.player2).setVisibility(INVISIBLE);
+            ((Activity) getContext()).findViewById(R.id.player1).setVisibility(VISIBLE);
         this.setEnabled(true);
         setupBoard();
         invalidate();
