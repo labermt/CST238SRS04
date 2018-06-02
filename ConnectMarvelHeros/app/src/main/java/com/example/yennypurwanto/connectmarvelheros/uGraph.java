@@ -91,13 +91,13 @@ public class uGraph {
                     queueVert.add(tempEdge.getEdgeDestination());
                     edges.remove(0);
                 }
-            } else {
-                throw new IllegalArgumentException("Not found.");
+            }
+            else {
+                //do nothing
             }
             queueVert.remove(0);
         }
         return found;
     }
-
 
 }

@@ -1,15 +1,14 @@
 package com.example.yennypurwanto.connectmarvelheros;
 
-import android.graphics.Bitmap;
+import android.widget.ImageButton;
 
 import static com.example.yennypurwanto.connectmarvelheros.TileStatus.BLANK;
 
-enum TileStatus{BLANK, BP, SW;}
+enum TileStatus{BLANK, BP, SW, GL, SM, CORNER}
 
 public class BoardTile {
 
-    Bitmap heroImg;
-    boolean activeTile;
+    private boolean activeTile;
     private TileStatus status;
     private Position position;
 
@@ -17,7 +16,6 @@ public class BoardTile {
         status = BLANK;
         activeTile = true;
         position = new Position();
-        final Bitmap pict = this.heroImg;
     }
 
     public TileStatus getStatus(){
@@ -45,7 +43,7 @@ public class BoardTile {
         return outEquals;
     }
 
-    public void setPosition(int x, int y){
+    public void setPosition(float x, float y){
         position = new Position(x, y);
     }
 
