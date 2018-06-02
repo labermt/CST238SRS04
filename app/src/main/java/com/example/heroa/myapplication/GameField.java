@@ -1,12 +1,16 @@
 package com.example.heroa.myapplication;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Random;
 
 public class GameField extends AppCompatActivity {
 
@@ -14,6 +18,7 @@ public class GameField extends AppCompatActivity {
     public GameController overlord = new GameController();
     int playerOneImage = 0;
     int playerTwoImage = 1;
+    boolean gameOver = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,18 +37,20 @@ public class GameField extends AppCompatActivity {
         ImageView image = findViewById(v.getId());
         Location location = GetLocation(v.getId());
 
-        if(overlord.isValidMove(location.locX, location.locY))
+        if(!gameOver)
         {
-            UpdateTurnField();
-            overlord.PickTile(location.locX, location.locY);
-            image.setClickable(false);
-            if(overlord.CheckForWin(location.locX, location.locY))
-            {
-                Toast.makeText(this, "VICTORY!!", Toast.LENGTH_LONG).show();
-            }
+            if (overlord.isValidMove(location.locX, location.locY)) {
+                overlord.PickTile(location.locX, location.locY);
+                image.setClickable(false);
+                if (overlord.CheckForWin(location.locX, location.locY)) {
+                    VictoryExplosion();
+
+                    return;
+                }
+                UpdateTurnField();
+            } else
+                Toast.makeText(this, "Can't place there.", Toast.LENGTH_SHORT).show();
         }
-        else
-            Toast.makeText(this, "Can't place there.", Toast.LENGTH_SHORT).show();
         DrawField();
     }
 
@@ -132,12 +139,31 @@ public class GameField extends AppCompatActivity {
         TextView playerTurn = findViewById(R.id.activePlayerTextField);
         if(overlord.turn)
         {
-            playerTurn.setText("Player Two's Turn");
+            playerTurn.setText("Player One's Turn");
         }
         else
         {
-            playerTurn.setText("Player One's Turn");
+            playerTurn.setText("Player Two's Turn");
         }
+    }
+
+    public void VictoryExplosion() {
+        gameOver = true;
+        TextView victoryText = findViewById(R.id.winDeclaration);
+
+        if(overlord.turn)
+        {
+            victoryText.setText("Player Two Wins!!\n");
+        }
+        else
+        {
+            victoryText.setText("Player One Wins!!\n");
+        }
+
+        Toast toast = Toast.makeText(this, "VICTORY!!", Toast.LENGTH_LONG);
+        toast.show();
+        DrawField();
+
     }
 }
 

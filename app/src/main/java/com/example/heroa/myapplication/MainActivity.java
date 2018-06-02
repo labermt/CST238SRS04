@@ -68,9 +68,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void Rules(View view)
+    public void RulesScreen(View view)
     {
-
+        Intent intent = new Intent(this, Rules.class);
+        startActivity(intent);
     }
 
     void player1OnChange(int color)
