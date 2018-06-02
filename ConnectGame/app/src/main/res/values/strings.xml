@@ -2,7 +2,7 @@
     <string name="app_name">Connect.Game</string>
     <string name="won">YOU WON!</string>
     <string name="endTurn">End Turn</string>
-    <string name="info">Two ways to win:
-    either make a loop with your color,
-        or connect opposite sides of the board</string>
+    <string name="infoTitle">Two ways to win:</string>
+    <string name="infoRule1">Either make a loop</string>
+    <string name="infoRule2">Or make a line</string>
 </resources>
