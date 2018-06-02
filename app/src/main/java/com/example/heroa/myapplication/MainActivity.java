@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,10 +63,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void PlayGame(View view)
     {
-        Intent intent = new Intent(this, GameField.class);
-        intent.putExtra("player1Color", player1Color);
-        intent.putExtra("player2Color", player2Color);
-        startActivity(intent);
+        if(player1Color != player2Color)
+        {
+            Intent intent = new Intent(this, GameField.class);
+            intent.putExtra("player1Color", player1Color);
+            intent.putExtra("player2Color", player2Color);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast toast = Toast.makeText(this, "Can't be the same color.", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     public void RulesScreen(View view)
