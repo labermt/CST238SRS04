@@ -1375,10 +1375,22 @@
         android:id="@+id/victoryTextbox"
         android:layout_width="166dp"
         android:layout_height="34dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.642"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button114" />
+
+    <TextView
+        android:id="@+id/turnTextbox"
+        android:layout_width="164dp"
+        android:layout_height="22dp"
+        android:layout_marginLeft="158dp"
+        android:layout_marginStart="158dp"
+        android:layout_marginTop="12dp"
+        android:text="Blue's turn"
+        android:textSize="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button115" />
 </android.support.constraint.ConstraintLayout>

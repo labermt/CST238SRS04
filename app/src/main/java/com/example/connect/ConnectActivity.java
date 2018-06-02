@@ -14,6 +14,7 @@ public class ConnectActivity extends AppCompatActivity {
     boolean[][] blue;
     boolean[][] red;
     TextView victoryTextbox;
+    TextView turnTextbox;
     Button[][] button;
     Button button3;
     Button button5;
@@ -85,6 +86,8 @@ public class ConnectActivity extends AppCompatActivity {
         red = new boolean[11][11];
         button = new Button[11][11];
         victoryTextbox = findViewById(R.id.victoryTextbox);
+        turnTextbox = findViewById(R.id.turnTextbox);
+        turnTextbox.setTextColor(Color.BLUE);
         for(int i = 0; i < 11; i++){
             for(int j = 0; j < 11; j++){
                 if(IsEven(i) && !IsEven(j)){
@@ -654,55 +657,55 @@ public class ConnectActivity extends AppCompatActivity {
                 visited[i][j] = false;
             }
         }
-        DFS(0, 3, visited, red, 7, 10, "red", 0, 3, 0, true);
+        DFS(0, 3, visited, red, 10,7, "red", 0, 3, 0, true);
         for(int i = 0; i < 11; i++){
             for(int j = 0; j < 11; j++){
                 visited[i][j] = false;
             }
         }
-        DFS(0, 5, visited, red, 7, 10, "red", 0, 5, 0, true);
+        DFS(0, 5, visited, red, 10, 7, "red", 0, 5, 0, true);
         for(int i = 0; i < 11; i++){
             for(int j = 0; j < 11; j++){
                 visited[i][j] = false;
             }
         }
-        DFS(0, 7, visited, red, 7, 10, "red", 0, 7, 0, true);
+        DFS(0, 7, visited, red, 10, 7, "red", 0, 7, 0, true);
         for(int i = 0; i < 11; i++){
             for(int j = 0; j < 11; j++){
                 visited[i][j] = false;
             }
         }
-        DFS(0, 9, visited, red, 7, 10, "red", 0, 9, 0, true);
+        DFS(0, 9, visited, red, 10, 7, "red", 0, 9, 0, true);
         for(int i = 0; i < 11; i++){
             for(int j = 0; j < 11; j++){
                 visited[i][j] = false;
             }
         }
-        DFS(0, 1, visited, red, 9, 10, "red", 0, 1, 0, true);
+        DFS(0, 1, visited, red, 10, 9, "red", 0, 1, 0, true);
         for(int i = 0; i < 11; i++){
             for(int j = 0; j < 11; j++){
                 visited[i][j] = false;
             }
         }
-        DFS(0, 3, visited, red, 9, 10, "red", 0, 3, 0, true);
+        DFS(0, 3, visited, red, 10, 9, "red", 0, 3, 0, true);
         for(int i = 0; i < 11; i++){
             for(int j = 0; j < 11; j++){
                 visited[i][j] = false;
             }
         }
-        DFS(0, 5, visited, red, 9, 10, "red", 0, 5, 0, true);
+        DFS(0, 5, visited, red, 10, 9, "red", 0, 5, 0, true);
         for(int i = 0; i < 11; i++){
             for(int j = 0; j < 11; j++){
                 visited[i][j] = false;
             }
         }
-        DFS(0, 7, visited, red, 9, 10, "red", 0, 7, 0, true);
+        DFS(0, 7, visited, red, 10, 9, "red", 0, 7, 0, true);
         for(int i = 0; i < 11; i++){
             for(int j = 0; j < 11; j++){
                 visited[i][j] = false;
             }
         }
-        DFS(0, 9, visited, red, 9, 10, "red", 0, 9, 0, true);
+        DFS(0, 9, visited, red, 10, 9, "red", 0, 9, 0, true);
         for(int i = 0; i < 11; i++){
             for(int j = 0; j < 11; j++){
                 visited[i][j] = false;
@@ -815,7 +818,16 @@ public class ConnectActivity extends AppCompatActivity {
     if(!matrix[x][y])
         return;
     if(x == start_x && y == start_y && iterations > 3){
-        victoryTextbox.setText(color + " wins!");
+        if(color.equals("blue")){
+            victoryTextbox.setText("Blue wins!");
+            victoryTextbox.setTextColor(Color.BLUE);
+            turnTextbox.setText("");
+        }
+        else if(color.equals("red")){
+            victoryTextbox.setText("Red wins!");
+            victoryTextbox.setTextColor(Color.RED);
+            turnTextbox.setText("");
+        }
         final ConnectActivity this_ = this;
         android.os.Handler handler = new android.os.Handler();
             handler.postDelayed(new Runnable() {
@@ -832,7 +844,16 @@ public class ConnectActivity extends AppCompatActivity {
     visited[x][y] = true;
     if(startingPoint){
     if(x == dest_x && y == dest_y){
-        victoryTextbox.setText(color + " wins!");
+        if(color.equals("blue")){
+            victoryTextbox.setText("Blue wins!");
+            victoryTextbox.setTextColor(Color.BLUE);
+            turnTextbox.setText("");
+        }
+        else if(color.equals("red")){
+            victoryTextbox.setText("Red wins!");
+            victoryTextbox.setTextColor(Color.RED);
+            turnTextbox.setText("");
+        }
         final ConnectActivity this_ = this;
         android.os.Handler handler = new android.os.Handler();
             handler.postDelayed(new Runnable() {
@@ -1462,12 +1483,19 @@ public class ConnectActivity extends AppCompatActivity {
         if(!invalid_move){
         if(turn.equals("blue")){
             turn = "red";
+            turnTextbox.setText("Red's turn");
+            turnTextbox.setTextColor(Color.RED);
             if(cpu == 1){
                 makeCPUMove();
                 turn = "blue";
-            }
+                turnTextbox.setText("Blue's turn");
+                turnTextbox.setTextColor(Color.BLUE);
+                }
         }
-        else turn = "blue";
+        else {turn = "blue";
+         turnTextbox.setText("Blue's turn");
+         turnTextbox.setTextColor(Color.BLUE);
+        }
         VictoryBlue();
         VictoryRed();
         }
