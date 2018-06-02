@@ -3,6 +3,7 @@ package com.example.connect;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ public class Connect_Main extends Activity {
     private void setListen(){
         Button singleplay =  findViewById(R.id.BotPlay);
         Button twoplay = findViewById(R.id.TwoPlay);
+        Button howtoplay = findViewById(R.id.HowToPlay);
         turn = findViewById(R.id.Turn);
 
         singleplay.setText("Single Player Game");
@@ -75,6 +77,13 @@ public class Connect_Main extends Activity {
                 twoPlayer=true;
                 init_game();
                 play_game();
+            }
+        });
+        howtoplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, HowToPlayActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -118,6 +127,7 @@ public class Connect_Main extends Activity {
             if(firstMove){
                 firstMove=false;
                 xMove=5; yMove=5;
+                botLastX = xMove; botLastY = yMove;
                 make_a_move();
             }
             else{
@@ -131,36 +141,129 @@ public class Connect_Main extends Activity {
         make_a_move();
     }
 
+    private int botLastX = 0;
+    private int botLastY = 0;
+
     private void randomBotMove() {
-        int done = 0;
-        for(int i=0;i<maxN;i++){
-            if(done == 1)
-            {
-                break;
+        boolean moved = false;
+        int randomX;
+        int randomY;
+        Random random = new Random();
+
+        if (botLastX == 0) {
+            if (valueCell[botLastX + 1][botLastY - 1] == 0) {
+                if (validMove(botLastX + 1, botLastY - 1)) {
+                    xMove = botLastX + 1;
+                    yMove = botLastY - 1;
+                    moved = true;
+                }
             }
-            label:
-            for (int j = 0; j < maxN; j++) {
-                switch (j) {
-                    case 0:
-
-                        break;
-                    case 10:
-
-                        break;
-                    default:
-                        if (valueCell[i][j] == 0 && validMove(i, j)) {
-                            xMove = i;
-                            yMove = j;
-                            done = 1;
-                            break label;
-                        }
-                        break;
+            if (valueCell[botLastX + 1][botLastY + 1] == 0 && !moved) {
+                if (validMove(botLastX + 1, botLastY + 1)) {
+                    xMove = botLastX + 1;
+                    yMove = botLastY + 1;
+                    moved = true;
                 }
             }
         }
+        else if (botLastX == 10) {
+            if (valueCell[botLastX - 1][botLastY - 1] == 0) {
+                if (validMove(botLastX - 1, botLastY - 1)) {
+                    xMove = botLastX - 1;
+                    yMove = botLastY - 1;
+                    moved = true;
+                }
+            }
+            if (valueCell[botLastX - 1][botLastY + 1] == 0 && !moved) {
+                if (validMove(botLastX - 1, botLastY + 1)) {
+                    xMove = botLastX - 1;
+                    yMove = botLastY + 1;
+                    moved = true;
+                }
+            }
+        }
+        else if (botLastY == 0) {
+            if (valueCell[botLastX - 1][botLastY + 1] == 0) {
+                if (validMove(botLastX - 1, botLastY + 1)) {
+                    xMove = botLastX - 1;
+                    yMove = botLastY + 1;
+                    moved = true;
+                }
+            }
+            if (valueCell[botLastX + 1][botLastY + 1] == 0 && !moved) {
+                if (validMove(botLastX + 1, botLastY + 1)) {
+                    xMove = botLastX + 1;
+                    yMove = botLastY + 1;
+                    moved = true;
+                }
+            }
+        }
+        else if (botLastY == 10) {
+            if (valueCell[botLastX - 1][botLastY - 1] == 0) {
+                if (validMove(botLastX - 1, botLastY - 1)) {
+                    xMove = botLastX - 1;
+                    yMove = botLastY - 1;
+                    moved = true;
+                }
+            }
+            if (valueCell[botLastX + 1][botLastY - 1] == 0 && !moved) {
+                if (validMove(botLastX + 1, botLastY - 1)) {
+                    xMove = botLastX + 1;
+                    yMove = botLastY - 1;
+                    moved = true;
+                }
+            }
+        }
+        else {
+            if (valueCell[botLastX - 1][botLastY - 1] == 0) {
+                if (validMove(botLastX - 1, botLastY - 1)) {
+                    xMove = botLastX - 1;
+                    yMove = botLastY - 1;
+                    moved = true;
+                }
+            }
+            if (valueCell[botLastX - 1][botLastY + 1] == 0 && !moved) {
+                if (validMove(botLastX - 1, botLastY + 1)) {
+                    xMove = botLastX - 1;
+                    yMove = botLastY + 1;
+                    moved = true;
+                }
+            }
+            if (valueCell[botLastX + 1][botLastY - 1] == 0 && !moved) {
+                if (validMove(botLastX + 1, botLastY - 1)) {
+                    xMove = botLastX + 1;
+                    yMove = botLastY - 1;
+                    moved = true;
+                }
+            }
+            if (valueCell[botLastX + 1][botLastY + 1] == 0 && !moved) {
+                if (validMove(botLastX + 1, botLastY + 1)) {
+                    xMove = botLastX + 1;
+                    yMove = botLastY + 1;
+                    moved = true;
+                }
+            }
+        }
+
+        if(!moved){
+            do {
+                randomX = random.nextInt(11);
+                randomY = random.nextInt(11);
+            }
+            while (!validMove(randomX, randomY));
+
+            xMove = randomX;
+            yMove = randomY;
+        }
+
+        botLastX = xMove;
+        botLastY = yMove;
     }
 
     private boolean validMove(int x, int y) {
+        if(valueCell[x][y] != 0){
+            return false;
+        }
         if(x==0&&y==0){
             return false;
         }
@@ -223,6 +326,8 @@ public class Connect_Main extends Activity {
                     } else {
                         Toast.makeText(context, "Winner is Player 2", Toast.LENGTH_SHORT).show();
                         turn.setText("Winner is Player 2");
+                        turnPlay = 1;
+                        firstPlayerTurn();
                     }
                 } else {
                     if (turnPlay == 1) {
@@ -234,7 +339,9 @@ public class Connect_Main extends Activity {
                     }
                 }
             } else {
-                Toast.makeText(context, "Invalid Move: Choose Again!", Toast.LENGTH_SHORT).show();
+                if(turnPlay == 2 && twoPlayer){
+                    Toast.makeText(context, "Invalid Move: Choose Again!", Toast.LENGTH_SHORT).show();
+                }
                 if (turnPlay == 1) {
                     firstPlayerTurn();
                 } else {

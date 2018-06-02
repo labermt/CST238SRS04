@@ -64,4 +64,12 @@
         android:background="@android:color/holo_green_light"
         android:orientation="vertical"></LinearLayout>
 
+    <Button
+        android:id="@+id/HowToPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:text="How To Play" />
+
 </RelativeLayout>
