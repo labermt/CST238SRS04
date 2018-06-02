@@ -1,0 +1,46 @@
+Connect Game: Connect!
+
+Student Name: Tim Capehart
+
+Issues:
+
+
+Notes:
+
+more advanced AI
+
+highlight the win condition box or lines
+
+feedback for invalid moves
+
+highlight the win..
+
+red looked a bit wierd
+
+color options
+
+main menu / start game button
+
+
+
+
+
+----
+
+Tester Name: Andrew - has played before
+
+Silent Test Notes:
+
+Interview Notes:
+
+
+Issues:
+
+
+
+Fix:
+
+---
+
+... Repeat for each Tester. 
+

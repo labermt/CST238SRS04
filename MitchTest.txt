@@ -1,0 +1,47 @@
+Connect Game: Connect!
+
+Student Name: Tim Capehart
+
+Issues:
+
+
+Notes:
+
+
+
+
+----
+
+Tester Name: Mitch
+
+Silent Test Notes:
+
+Interview Notes:
+
+maybe reset not available at start
+
+AI a tech term
+
+suggest move options
+
+looks great
+
+track mode, showing game being played to demonstrate
+
+highlight win 
+
+could show last computer move
+
+
+
+
+Issues:
+
+
+
+Fix:
+
+---
+
+... Repeat for each Tester. 
+

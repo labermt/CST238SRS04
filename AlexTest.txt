@@ -1,0 +1,54 @@
+Connect Game: Connect!
+
+Student Name: Tim Capehart
+
+Issues:
+
+
+Notes:
+
+	would want to play this for fun.
+	Ai is easy.
+	
+----
+
+Tester Name: Alex - already tested 1
+
+Silent Test Notes:
+
+Interview Notes:
+
+started AI on. won quickly
+
+did'nt know to go again when AI was off
+
+
+
+
+
+Issues:
+
+
+
+
+
+
+Fix:
+
+---
+
+... Repeat for each Tester. 
+
+
+Try to win by enclosure. check
+
+Try to win by side-to-side connection.  check
+	tried to connect red from left to right at first.
+	
+
+Play a game against AI. check
+
+Toggle AI during game. check
+
+	thought it was cool to change 1 or 2 player on the fly
+Test the Reset button. check

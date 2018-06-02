@@ -1,0 +1,53 @@
+Connect Game: Connect!
+
+Student Name: Tim Capehart
+
+Issues:
+
+
+Notes:
+
+
+
+
+----
+
+Tester Name: Beau
+
+Silent Test Notes:
+
+Interview Notes:
+
+no idea what im doing.
+
+tried to click dots/ nothing happened
+
+picking spots at random
+
+likes that dots connect.. dont know why
+
+What did i do that was right?
+
+highlight win condition
+
+like on the fly AI
+
+info button.. how to play keep it simple
+
+provide a visual
+
+didn't care really about color choice
+
+color choice would pick an opposite color for opposing team
+
+
+Issues:
+
+
+
+Fix:
+
+---
+
+... Repeat for each Tester. 
+
