@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/PlayerOnePopUp"
+        android:layout_width="292dp"
+        android:layout_height="125dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:gravity="center"
+        android:text="Choose a character Player 1"
+        android:textSize="35sp" />
+
+
+    <ImageButton
+        android:id="@+id/x_button"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="187dp"
+        android:background="@drawable/x" />
+
+    <ImageButton
+        android:id="@+id/o_button"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignTop="@+id/x_button"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/o" />
+
+    <ImageButton
+        android:id="@+id/trian_button"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/x_button"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/train" />
+
+    <ImageButton
+        android:id="@+id/rook_button"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/x_button"
+        android:layout_marginBottom="127dp"
+        android:background="@drawable/rook" />
+
+    <ImageButton
+        android:id="@+id/hat_button"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignTop="@+id/rook_button"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/top_hat" />
+
+    <ImageButton
+        android:id="@+id/pawn_button"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignRight="@+id/trian_button"
+        android:layout_alignTop="@+id/rook_button"
+        android:background="@drawable/chess_piece_bishop" />
+
+</RelativeLayout>
