@@ -12,6 +12,7 @@ public class Dot {
     public boolean taken;
     public boolean edge;
     public boolean visited;
+    public boolean corner;
 
     Dot(){
         this.player = ' ';

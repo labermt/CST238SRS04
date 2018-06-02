@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -45,11 +46,12 @@ public class BoardView extends View {
     private void init(){
         gridPaint = new Paint();
         gridPaint.setAntiAlias(true);
+        gridPaint.setColor(Color.GRAY);
         dotPaint = new Paint();
         dotPaint.setAntiAlias(true);
         linePaint = new Paint();
         linePaint.setAntiAlias(true);
-        linePaint.setStrokeWidth(19f);
+        linePaint.setStrokeWidth(25f);
         borderPaint = new Paint();
         borderPaint.setStrokeWidth(7f);
         borderPaint.setStyle(Paint.Style.STROKE);
@@ -110,18 +112,18 @@ public class BoardView extends View {
                             game.cells[x + 1][y].player == game.currentPlayer){
                         // create a line to connect dots
                         lines.add(new Line(game.cells[x - 1][y].xCoord, game.cells[x - 1][y].yCoord,
-                                game.cells[x + 1][y].xCoord, game.cells[x + 1][y].yCoord, game.cells[x + 1][y].dotColor ));
+                                game.cells[x + 1][y].xCoord, game.cells[x + 1][y].yCoord, game.cells[x + 1][y].dotColor, game.currentPlayer ));
                     }
                     if (game.cells[x][y - 1].player == game.currentPlayer &&
                             game.cells[x][y + 1].player == game.currentPlayer){
                         // create a line to connect dots
                         lines.add(new Line(game.cells[x][y - 1].xCoord, game.cells[x][y - 1].yCoord,
-                                game.cells[x][y + 1].xCoord, game.cells[x][y + 1].yCoord, game.cells[x][y + 1].dotColor));
+                                game.cells[x][y + 1].xCoord, game.cells[x][y + 1].yCoord, game.cells[x][y + 1].dotColor, game.currentPlayer));
                     }
                 }
                 if (y == 0 || y == 10){
                     lines.add(new Line(game.cells[x - 1][y].xCoord, game.cells[x - 1][y].yCoord,
-                            game.cells[x + 1][y].xCoord, game.cells[x + 1][y].yCoord, game.cells[x + 1][y].dotColor ));
+                            game.cells[x + 1][y].xCoord, game.cells[x + 1][y].yCoord, game.cells[x + 1][y].dotColor, game.currentPlayer ));
                 }
 
             }
@@ -133,18 +135,18 @@ public class BoardView extends View {
                             game.cells[x + 1][y].player == game.currentPlayer){
                         // create a line to connect dots
                         lines.add(new Line(game.cells[x - 1][y].xCoord, game.cells[x - 1][y].yCoord,
-                                game.cells[x + 1][y].xCoord, game.cells[x + 1][y].yCoord, game.cells[x + 1][y].dotColor ));
+                                game.cells[x + 1][y].xCoord, game.cells[x + 1][y].yCoord, game.cells[x + 1][y].dotColor, game.currentPlayer ));
                     }
                     if (game.cells[x][y - 1].player == game.currentPlayer &&
                             game.cells[x][y + 1].player == game.currentPlayer){
                         // create a line to connect dots
                         lines.add(new Line(game.cells[x][y - 1].xCoord, game.cells[x][y - 1].yCoord,
-                                game.cells[x][y + 1].xCoord, game.cells[x][y + 1].yCoord, game.cells[x][y + 1].dotColor));
+                                game.cells[x][y + 1].xCoord, game.cells[x][y + 1].yCoord, game.cells[x][y + 1].dotColor, game.currentPlayer));
                     }
                 }
                 if (x == 0 || x == 10){
                     lines.add(new Line(game.cells[x][y - 1].xCoord, game.cells[x][y - 1].yCoord,
-                            game.cells[x][y + 1].xCoord, game.cells[x][y + 1].yCoord, game.cells[x][y + 1].dotColor));
+                            game.cells[x][y + 1].xCoord, game.cells[x][y + 1].yCoord, game.cells[x][y + 1].dotColor, game.currentPlayer));
                 }
             }
             game.resetVisited();
@@ -155,14 +157,19 @@ public class BoardView extends View {
             game.changePlayer();
         }
         if (game.gameOver){
+            game.changePlayer();
             if (game.cells[x][y].dotColor == mainActivity.redColor){
-                Toast.makeText(getContext(), "Red Wins!",
-                        Toast.LENGTH_LONG).show();
+                Toast toast= Toast.makeText(getContext(),
+                        "Player 1 Wins!", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 450);
+                toast.show();
                 return super.onTouchEvent(event);
             }
             if (game.cells[x][y].dotColor == mainActivity.blueColor){
-                Toast.makeText(getContext(), "Blue Wins!",
-                        Toast.LENGTH_LONG).show();
+                Toast toast= Toast.makeText(getContext(),
+                        "Player 2 Wins!", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 450);
+                toast.show();
                 return super.onTouchEvent(event);
             }
 
@@ -200,18 +207,18 @@ public class BoardView extends View {
                         game.cells[x + 1][y].player == game.currentPlayer){
                     // create a line to connect dots
                     lines.add(new Line(game.cells[x - 1][y].xCoord, game.cells[x - 1][y].yCoord,
-                            game.cells[x + 1][y].xCoord, game.cells[x + 1][y].yCoord, game.cells[x + 1][y].dotColor ));
+                            game.cells[x + 1][y].xCoord, game.cells[x + 1][y].yCoord, game.cells[x + 1][y].dotColor, game.currentPlayer ));
                 }
                 if (game.cells[x][y - 1].player == game.currentPlayer &&
                         game.cells[x][y + 1].player == game.currentPlayer){
                     // create a line to connect dots
                     lines.add(new Line(game.cells[x][y - 1].xCoord, game.cells[x][y - 1].yCoord,
-                            game.cells[x][y + 1].xCoord, game.cells[x][y + 1].yCoord, game.cells[x][y + 1].dotColor));
+                            game.cells[x][y + 1].xCoord, game.cells[x][y + 1].yCoord, game.cells[x][y + 1].dotColor, game.currentPlayer));
                 }
             }
             if (y == 0 || y == 10){
                 lines.add(new Line(game.cells[x - 1][y].xCoord, game.cells[x - 1][y].yCoord,
-                        game.cells[x + 1][y].xCoord, game.cells[x + 1][y].yCoord, game.cells[x + 1][y].dotColor ));
+                        game.cells[x + 1][y].xCoord, game.cells[x + 1][y].yCoord, game.cells[x + 1][y].dotColor, game.currentPlayer ));
             }
 
         }
@@ -223,18 +230,18 @@ public class BoardView extends View {
                         game.cells[x + 1][y].player == game.currentPlayer){
                     // create a line to connect dots
                     lines.add(new Line(game.cells[x - 1][y].xCoord, game.cells[x - 1][y].yCoord,
-                            game.cells[x + 1][y].xCoord, game.cells[x + 1][y].yCoord, game.cells[x + 1][y].dotColor ));
+                            game.cells[x + 1][y].xCoord, game.cells[x + 1][y].yCoord, game.cells[x + 1][y].dotColor, game.currentPlayer ));
                 }
                 if (game.cells[x][y - 1].player == game.currentPlayer &&
                         game.cells[x][y + 1].player == game.currentPlayer){
                     // create a line to connect dots
                     lines.add(new Line(game.cells[x][y - 1].xCoord, game.cells[x][y - 1].yCoord,
-                            game.cells[x][y + 1].xCoord, game.cells[x][y + 1].yCoord, game.cells[x][y + 1].dotColor));
+                            game.cells[x][y + 1].xCoord, game.cells[x][y + 1].yCoord, game.cells[x][y + 1].dotColor, game.currentPlayer));
                 }
             }
             if (x == 0 || x == 10){
                 lines.add(new Line(game.cells[x][y - 1].xCoord, game.cells[x][y - 1].yCoord,
-                        game.cells[x][y + 1].xCoord, game.cells[x][y + 1].yCoord, game.cells[x][y + 1].dotColor));
+                        game.cells[x][y + 1].xCoord, game.cells[x][y + 1].yCoord, game.cells[x][y + 1].dotColor, game.currentPlayer));
             }
         }
         game.resetVisited();
@@ -245,24 +252,27 @@ public class BoardView extends View {
         invalidate();
 
         if (game.gameOver){
-        //game.changePlayer();
+        game.changePlayer();
             if (game.cells[x][y].dotColor == mainActivity.redColor){
-                Toast.makeText(getContext(), "Red Wins!",
-                        Toast.LENGTH_LONG).show();
+                Toast toast= Toast.makeText(getContext(),
+                        "Player 1 Wins!", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 450);
+                toast.show();
                 return;
-                //Toast.makeText(mainActivity, "Red Wins!", Toast.LENGTH_LONG).show();
             }
             if (game.cells[x][y].dotColor == mainActivity.blueColor){
-                Toast.makeText(getContext(), "Blue Wins!",
-                        Toast.LENGTH_LONG).show();
+                Toast toast= Toast.makeText(getContext(),
+                        "Player 2 Wins!", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 450);
+                toast.show();
                 return;
-                //Toast.makeText(mainActivity, "Blue Wins!", Toast.LENGTH_LONG).show();
             }
         }
     }
 
+
     private boolean checkValidMove(int x, int y){
-        //boolean pass = false;
+
         if (game.cells[x][y].taken){
             return false;
         }
@@ -333,6 +343,26 @@ public class BoardView extends View {
     public void clearLines(){
         lines.clear();
     }
+    public void resetColors(){
+        for (int i = 0; i < 11; i++) {
+            for (int j = 0; j < 11; j++){
+                if (game.cells[i][j].player == 'R'){
+                    game.cells[i][j].dotColor = mainActivity.redColor;
+                }
+                if (game.cells[i][j].player == 'B'){
+                    game.cells[i][j].dotColor = mainActivity.blueColor;
+                }
+            }
+        }
+        for(Line line : lines){
+            if (line.player == 'R'){
+                line.lineColor = mainActivity.redColor;
+            }
+            if (line.player == 'B'){
+                line.lineColor = mainActivity.blueColor;
+            }
+        }
+    }
 
     public void setupGame(Game g){
 
@@ -340,6 +370,10 @@ public class BoardView extends View {
         game.cells[0][10].taken = true;
         game.cells[10][0].taken = true;
         game.cells[10][10].taken = true;
+        game.cells[0][0].corner = true;
+        game.cells[0][10].corner = true;
+        game.cells[10][0].corner = true;
+        game.cells[10][10].corner = true;
 
         for (int i = 0; i < 11; i++){
             for(int j = 0; j < 11; j++){

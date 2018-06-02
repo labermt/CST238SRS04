@@ -1,12 +1,14 @@
 package com.example.tcape.connectgame;
 
 import android.graphics.Color;
+import android.view.View;
 
 
 public class Game {
 
     public Dot[][] cells;
     public Dot[][] checkCells;
+    public boolean[][] highlight;
     public char currentPlayer;
     public boolean gameOver;
     private MainActivity mainActivity;
@@ -25,6 +27,7 @@ public class Game {
                 checkCells[i][j] = new Dot(i, j);
             }
         }
+        highlight = new boolean[11][11];
         currentPlayer = 'R';
         gameOver = false;
     }
@@ -50,6 +53,15 @@ public class Game {
         return cells[x][y].player;
     }
 
+    public void changeTurnColor(){
+        if (currentPlayer == 'R'){
+            mainActivity.turnColor.setTextColor(mainActivity.redColor);
+        }
+        else{
+            mainActivity.turnColor.setTextColor(mainActivity.blueColor);
+        }
+    }
+
     private void floodFill(Dot dot, int x, int y){
         if (x < 0 || x > 10 || y < 0 || y > 10) return;
 
@@ -57,17 +69,11 @@ public class Game {
         checkCells[x][y].visited = true;
 
         if (cells[x][y].dotColor == dot.dotColor) {
-            if (x == 0){
+            if (x == 0 || x == 10){
                 floodFill(dot, x, y - 1);
             }
-            if (x == 10){
-                floodFill(dot, x, y - 1);
-            }
-            if (y == 0){
+            if (y == 0 || y == 10){
                 floodFill(dot, x - 1 , y);
-            }
-            if (y == 10){
-                floodFill(dot, x - 1, y);
             }
             return;
         }
@@ -107,12 +113,30 @@ public class Game {
         }
     }
 
+    public void setWinCells(){
+        for (int i = 0; i <  10; i++){
+            for (int j = 0; j < 10; j++){
+                cells[i][j].dotColor = checkCells[i][j].dotColor;
+            }
+        }
+    }
+
+    public void resetHighlight(){
+        for(int i = 0; i < 11; i++){
+            for (int j = 0; j < 11; j++){
+                highlight[i][j] = false;
+            }
+        }
+    }
+
     public boolean checkWin(Dot dot, int x, int y){
         floodFill(dot, x, y);
         for (int i = 0; i < 11; i++){
             for (int j = 0; j < 11; j++){
                 if (checkCells[i][j].dotColor != dot.dotColor){
                     gameOver = true;
+                    mainActivity.winner.setTextColor(dot.dotColor);
+                    mainActivity.winner.setVisibility(View.VISIBLE);
                     return true;
                 }
             }
@@ -134,6 +158,8 @@ public class Game {
             }
         }
         currentPlayer = 'R';
+        mainActivity.turnColor.setTextColor(mainActivity.redColor);
+        mainActivity.winner.setVisibility(View.INVISIBLE);
         gameOver = false;
     }
 
