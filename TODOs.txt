@@ -1,0 +1,7 @@
+
+git checkout -b old-state //create new branch named old-state, checkout local files to old-state
+git checkout old-state //move to pre updated state
+git checkout master //move to most current state
+
+view constructers
+better way to get view from other view
