@@ -1,8 +1,6 @@
 package com.example.tcape.connectgame;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,16 +17,14 @@ public class MainActivity extends AppCompatActivity {
 
     private BoardView boardView;
     private Game game;
-    public TextView turn;
+    private Button resetButton;
+    private Spinner spinner;
     public TextView turnColor;
     public TextView winner;
-    private Button resetButton;
     public Switch computer;
-    public Spinner spinner;
     public int redColor;
     public int blueColor;
     public MenuItem menuItem;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         spinner = findViewById(R.id.spinner);
         winner = findViewById(R.id.winner);
         winner.setVisibility(View.INVISIBLE);
-        //turn = findViewById(R.id.turn);
         redColor = getResources().getColor(R.color.redColor);
         blueColor = getResources().getColor(R.color.blueColor);
         turnColor = findViewById(R.id.turnColor);
@@ -54,15 +49,12 @@ public class MainActivity extends AppCompatActivity {
         newGame();
         boardView.invalidate();
 
-
-
         resetButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 game.resetGame();
                 boardView.clearLines();
                 boardView.setupGame(game);
                 turnColor.setText(R.string.RED);
-                //turnColor.setTextColor(getResources().getColor(R.color.redColor));
                 boardView.invalidate();
             }
         });
@@ -70,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.color_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -115,9 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 
     @Override

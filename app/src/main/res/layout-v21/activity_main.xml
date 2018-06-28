@@ -7,8 +7,6 @@
     tools:context=".MainActivity">
 
 
-
-
     <com.example.tcape.connectgame.BoardView
         android:id="@+id/boardView"
         android:layout_width="368dp"

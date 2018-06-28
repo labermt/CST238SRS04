@@ -15,6 +15,5 @@ public class Line {
         this.endY = eY;
         this.lineColor = lineColor;
         this.player = player;
-
     }
 }

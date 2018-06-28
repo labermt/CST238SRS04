@@ -7,14 +7,13 @@ import android.view.View;
 public class Game {
 
     public Dot[][] cells;
-    public Dot[][] checkCells;
-    public boolean[][] highlight;
+    private Dot[][] checkCells;
     public char currentPlayer;
     public boolean gameOver;
     private MainActivity mainActivity;
 
 
-    public Game(){
+    Game(){
         cells = new Dot[11][11];
         for (int i = 0; i < 11; i++) {
             for (int j = 0; j < 11; j++){
@@ -27,7 +26,6 @@ public class Game {
                 checkCells[i][j] = new Dot(i, j);
             }
         }
-        highlight = new boolean[11][11];
         currentPlayer = 'R';
         gameOver = false;
     }
@@ -46,7 +44,6 @@ public class Game {
             mainActivity.turnColor.setText(R.string.BLUE);
             mainActivity.turnColor.setTextColor(mainActivity.blueColor);
         }
-
     }
 
     public char getCell(int x, int y) {
@@ -99,7 +96,6 @@ public class Game {
             for (int j = 0; j < 11; j++){
                 if (cells[i][j].dotColor == dot.dotColor){
                     checkCells[i][j].dotColor = dot.dotColor;
-
                 }
             }
         }
@@ -113,23 +109,7 @@ public class Game {
         }
     }
 
-    public void setWinCells(){
-        for (int i = 0; i <  10; i++){
-            for (int j = 0; j < 10; j++){
-                cells[i][j].dotColor = checkCells[i][j].dotColor;
-            }
-        }
-    }
-
-    public void resetHighlight(){
-        for(int i = 0; i < 11; i++){
-            for (int j = 0; j < 11; j++){
-                highlight[i][j] = false;
-            }
-        }
-    }
-
-    public boolean checkWin(Dot dot, int x, int y){
+    public void checkWin(Dot dot, int x, int y){
         floodFill(dot, x, y);
         for (int i = 0; i < 11; i++){
             for (int j = 0; j < 11; j++){
@@ -137,11 +117,9 @@ public class Game {
                     gameOver = true;
                     mainActivity.winner.setTextColor(dot.dotColor);
                     mainActivity.winner.setVisibility(View.VISIBLE);
-                    return true;
                 }
             }
         }
-        return false;
     }
 
     public void resetGame(){
