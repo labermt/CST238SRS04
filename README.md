@@ -1,7 +1,9 @@
 # CST238SRS04
 Connect
 
-![picture](Game.PNG)
+![picture](<img src="Game.PNG" width="25%">)![picture](<img src="Help.PNG" width="25%">)
+
+
 
 Purpose: Practice UX testing. 
 
