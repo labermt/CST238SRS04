@@ -1,6 +1,8 @@
 # CST238SRS04
 Connect
 
+![alternativetext](Game.png)
+
 Purpose: Practice UX testing. 
 
 Create a game called Connect.
