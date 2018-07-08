@@ -1,7 +1,7 @@
 # CST238SRS04
 Connect
 
-<img src="Game.PNG" width="25%"><img src="Help.PNG" width="25%">
+<img src="Game.PNG" width="40%"><img src="Help.PNG" width="40%">
 
 
 
